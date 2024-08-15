@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   serialize:
-    runs-on: ubuntu-latest-kong
+    runs-on: ubuntu-latest
     name: Serialize Release Data
     # strategy:
     #   matrix:
@@ -51,7 +51,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest-kong
+    runs-on: ubuntu-latest
     needs: serialize
     steps:
       - uses: actions/download-artifact@v4
