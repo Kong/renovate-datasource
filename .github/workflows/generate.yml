@@ -15,6 +15,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  PAGE_SIZE: 3
+
 jobs:
   serialize:
     runs-on: ubuntu-latest
@@ -30,8 +33,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Kong
+        env:
+          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          CLOUDSMITH_QUERY: >-
+            name:^kong$ AND
+            distribution:el AND
+            distribution:9 AND
+            architecture:x86_64 AND
+            repository:^gateway
+          VERBOSE: ${{ runner.debug }}
+          DIR: kong/kong
+        run: |
+          mkdir -pv "tmp/${DIR}"
+
+          # --get required for --data* flags to be query params
+          curl ${_V:-} --get --location --fail \
+            -H 'accept: application/json' \
+            -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
+            --data-urlencode "query=${CLOUDSMITH_QUERY}" \
+            --data 'page=1' \
+            --data "page_size=$PAGE_SIZE" \
+            'https://api.cloudsmith.io/v1/packages/kong/' \
+              | jfq -q "${DIR}/query.jsonata" > "tmp/${DIR}/index.html"
+
       - name: Kong Enterprise
-        working-directory: kong/kong-ee
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           CLOUDSMITH_QUERY: >-
@@ -41,20 +67,19 @@ jobs:
             architecture:x86_64 AND
             repository:^gateway
           VERBOSE: ${{ runner.debug }}
+          DIR: kong/kong-ee
         run: |
-          mkdir -pv ../../tmp/kong/kong-ee
+          mkdir -pv "tmp/${DIR}"
 
-          # --get required for --data-* flags to do the thing
-          curl \
-            ${_V:-} \
-            --get \
-            --location \
-            --fail \
+          # --get required for --data* flags to be query params
+          curl ${_V:-} --get --location --fail \
             -H 'accept: application/json' \
             -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
             --data-urlencode "query=${CLOUDSMITH_QUERY}" \
-            'https://api.cloudsmith.io/v1/packages/kong/?page=1&page_size=100' \
-              | jfq -q query.jsonata > ../../tmp/kong/kong-ee/index.html
+            --data 'page=1' \
+            --data "page_size=$PAGE_SIZE" \
+            'https://api.cloudsmith.io/v1/packages/kong/' \
+              | jfq -q "${DIR}/query.jsonata" > "tmp/${DIR}/index.html"
 
       - uses: actions/upload-artifact@v4
         with:

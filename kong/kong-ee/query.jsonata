@@ -3,9 +3,9 @@
     "version": $replace(version, "-1", ""),
     "isDeprecated": $not("latest" in tags.version),
     "releaseTimestamp": uploaded_at,
-    "changelogUrl": "https://docs.konghq.com/gateway/changelog" & '#' & $replace(version, /-1|\./, ""),
+    "changelogUrl": "https://docs.konghq.com/gateway/changelog" & "#" & $replace(version, /-1|\./, ""),
     "sourceUrl": cdn_url,
-    "sourceDirectory": 'kong/' & repository,
+    "sourceDirectory": "kong/" & repository,
     "digest": checksum_sha256,
     "isStable": true
   },
