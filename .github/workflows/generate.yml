@@ -1,0 +1,70 @@
+---
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "5 12 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  serialize:
+    runs-on: ubuntu-latest-kong
+    name: Serialize Release Data
+    # strategy:
+    #   matrix:
+    #     version:
+    #       -
+    steps:
+      - name: Setup
+        run: npm install --global jfq
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Kong Enterprise
+        working-directory: tmp
+        env:
+          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          CLOUDSMITH_QUERY: >-
+            query=name:kong-enterprise-edition-fips AND
+            distribution:el AND
+            distribution:9 AND
+            architecture:x86_64
+        run: |
+          mkdir -pv kong/kong-ee
+
+          curl 'https://api.cloudsmith.io/v1/packages/kong/?page_size=100&page=1' \
+            -H 'accept: application/json' \
+            -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
+            --data-urlencode "${CLOUDSMITH_QUERY}" \
+              | jfq -q query.jsonata > index.html
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: tmp
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest-kong
+    needs: serialize
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: artifacts
+          path: _site
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
