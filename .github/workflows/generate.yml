@@ -31,18 +31,18 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Kong Enterprise
-        working-directory: tmp
+        working-directory: kong/kong-ee
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           CLOUDSMITH_QUERY: >-
             name:kong-enterprise-edition-fips AND
             distribution:el AND
             distribution:9 AND
-            architecture:x86_64
+            architecture:x86_64 AND
+            repository:^gateway
           VERBOSE: ${{ runner.debug }}
-          DIR: kong/kong-ee
         run: |
-          mkdir -pv "$DIR"
+          mkdir -pv ../../tmp/kong/kong-ee
 
           # --get required for --data-* flags to do the thing
           curl \
@@ -54,7 +54,7 @@ jobs:
             -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
             --data-urlencode "query=${CLOUDSMITH_QUERY}" \
             'https://api.cloudsmith.io/v1/packages/kong/?page=1&page_size=100' \
-              | jfq -q ../${DIR}/query.jsonata > ${DIR}/index.html
+              | jfq -q query.jsonata > ../../tmp/kong/kong-ee/index.html
 
       - uses: actions/upload-artifact@v4
         with:
