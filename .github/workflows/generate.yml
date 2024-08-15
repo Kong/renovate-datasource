@@ -32,12 +32,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-        
-      - run: |
-          pwd
-          find .
-          find ..
-          
 
       - name: Kong Gateway
         working-directory: kong/kong

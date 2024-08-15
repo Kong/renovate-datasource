@@ -1,0 +1,15 @@
+{
+  "releases": $.{
+    "version": $replace(version, "-1", ""),
+    "isDeprecated": $not("latest" in tags.version),
+    "releaseTimestamp": uploaded_at,
+    "changelogUrl": "https://github.com/Kong/kong/blob/master/CHANGELOG.md" & "#" & $replace(version, /-1|\./, ""),
+    "sourceUrl": cdn_url,
+    "sourceDirectory": "kong/" & repository,
+    "digest": checksum_sha256,
+    "isStable": true
+  },
+  "changelogUrl": "https://github.com/Kong/kong/blob/master/CHANGELOG.md",
+  "homepage": "https://konghq.com/products/kong-gateway",
+  "sourceUrl": "https://github.com/kong/kong"
+}
