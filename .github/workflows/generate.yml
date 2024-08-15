@@ -40,7 +40,7 @@ jobs:
             -H 'accept: application/json' \
             -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
             --data-urlencode "${CLOUDSMITH_QUERY}" \
-              | jfq -q query.jsonata > index.html
+              | jfq -q ../kong/kong-ee/query.jsonata > index.html
 
       - uses: actions/upload-artifact@v4
         with:
