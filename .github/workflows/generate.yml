@@ -40,13 +40,18 @@ jobs:
             _V='-v'
           fi
 
+          set -e
+          set -o pipefail
+
           mkdir -pv kong/kong-ee
 
           curl ${_V:-} \
-            'https://api.cloudsmith.io/v1/packages/kong/?page_size=15&page=1' \
+            --location \
+            --fail \
             -H 'accept: application/json' \
             -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
             --data-urlencode "${CLOUDSMITH_QUERY}" \
+            'https://api.cloudsmith.io/v1/packages/kong?page_size=15&page=1' \
               | jfq -q ../kong/kong-ee/query.jsonata > index.html
 
       - uses: actions/upload-artifact@v4
