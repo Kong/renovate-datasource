@@ -35,7 +35,7 @@ jobs:
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           CLOUDSMITH_QUERY: >-
-            query=name:kong-enterprise-edition-fips AND
+            name:kong-enterprise-edition-fips AND
             distribution:el AND
             distribution:9 AND
             architecture:x86_64
@@ -44,13 +44,16 @@ jobs:
         run: |
           mkdir -pv "$DIR"
 
-          curl ${_V:-} \
+          # --get required for --data-* flags to do the thing
+          curl \
+            ${_V:-} \
+            --get \
             --location \
             --fail \
             -H 'accept: application/json' \
             -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
-            --data-urlencode "${CLOUDSMITH_QUERY}" \
-            'https://api.cloudsmith.io/v1/packages/kong?page_size=15&page=1' \
+            --data-urlencode "query=${CLOUDSMITH_QUERY}" \
+            'https://api.cloudsmith.io/v1/packages/kong/?page=1&page_size=100' \
               | jfq -q ../${DIR}/query.jsonata > ${DIR}/index.html
 
       - uses: actions/upload-artifact@v4
