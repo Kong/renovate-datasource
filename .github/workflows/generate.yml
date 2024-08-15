@@ -75,7 +75,7 @@ jobs:
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
 
-          mkdir -pv tmp/"${DIR}"
+          mkdir -pv ../../tmp/"${DIR}"
 
           # --get required for --data* flags to be query params
           # shellcheck disable=SC2086
