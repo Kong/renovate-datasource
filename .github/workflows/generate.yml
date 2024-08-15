@@ -33,10 +33,17 @@ jobs:
             distribution:el AND
             distribution:9 AND
             architecture:x86_64
+          VERBOSE: ${{ runner.debug }}
         run: |
+          if [[ -n "${VERBOSE:-}" ]]; then
+            set -x
+            _V='-v'
+          fi
+
           mkdir -pv kong/kong-ee
 
-          curl 'https://api.cloudsmith.io/v1/packages/kong/?page_size=100&page=1' \
+          curl ${_V:-} \
+            'https://api.cloudsmith.io/v1/packages/kong/?page_size=15&page=1' \
             -H 'accept: application/json' \
             -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
             --data-urlencode "${CLOUDSMITH_QUERY}" \
