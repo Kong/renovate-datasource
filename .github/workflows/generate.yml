@@ -1,4 +1,6 @@
 ---
+name: Generate & Publish Pages
+
 on:
   workflow_dispatch: {}
   schedule:
@@ -8,6 +10,10 @@ permissions:
   contents: read
   pages: write
   id-token: write
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   serialize:
@@ -34,16 +40,9 @@ jobs:
             distribution:9 AND
             architecture:x86_64
           VERBOSE: ${{ runner.debug }}
+          DIR: kong/kong-ee
         run: |
-          if [[ -n "${VERBOSE:-}" ]]; then
-            set -x
-            _V='-v'
-          fi
-
-          set -e
-          set -o pipefail
-
-          mkdir -pv kong/kong-ee
+          mkdir -pv "$DIR"
 
           curl ${_V:-} \
             --location \
@@ -52,7 +51,7 @@ jobs:
             -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
             --data-urlencode "${CLOUDSMITH_QUERY}" \
             'https://api.cloudsmith.io/v1/packages/kong?page_size=15&page=1' \
-              | jfq -q ../kong/kong-ee/query.jsonata > index.html
+              | jfq -q ../${DIR}/query.jsonata > ${DIR}/index.html
 
       - uses: actions/upload-artifact@v4
         with:
