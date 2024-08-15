@@ -37,6 +37,29 @@ jobs:
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           CLOUDSMITH_QUERY: >-
+            name:^kong-mesh-linux-amd64$ AND
+            repository:^kong-mesh-binaries-release$
+          VERBOSE: ${{ runner.debug }}
+        run: |
+          [ -n "${VERBOSE:-}" ] && set -x
+
+          mkdir -pv tmp/kong/kong-mesh
+
+          # --get required for --data* flags to be query params
+          # shellcheck disable=SC2086
+          curl ${_V:-} --get --location --fail \
+            -H 'accept: application/json' \
+            -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
+            --data-urlencode "query=${CLOUDSMITH_QUERY}" \
+            --data 'page=1' \
+            --data "page_size=$PAGE_SIZE" \
+            'https://api.cloudsmith.io/v1/packages/kong/' |
+            jfq -q kong/kong-mesh/query.jsonata >tmp/kong/kong-mesh/index.html
+
+      - name: Kong Gateway
+        env:
+          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          CLOUDSMITH_QUERY: >-
             name:^kong$ AND
             distribution:el AND
             distribution:9 AND
