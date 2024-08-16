@@ -7,11 +7,11 @@
       "customType": "regex",
       "fileMatch": ["^hardening_manifest.ya?ml$"],
       "matchStrings": [
-        "org\\.opencontainers\\.image\\.version:\\s+(?<currentValue>3\\.7\\.1\\.1)"
+        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>.+?)(\\s|\"|'|$)",
+        "tags:\\s+-(\\s|\"|')+(?<currentValue>.+?)(\\s|\"|'|$)+"
       ],
       "datasourceTemplate": "custom.pages",
-      // "depNameTemplate": "kong/kong-ee",
-      "packageNameTemplate": "kong/kong-ee",
+      "depNameTemplate": "kong/kong-ee",
       "versioningTemplate": "loose"
     }
   ],
