@@ -1,5 +1,5 @@
 {
-  "releases": $.{
+  "releases": $sort($.{
     "version": $replace(version, "-1", ""),
     "releaseTimestamp": uploaded_at,
     "changelogUrl": "https://docs.konghq.com/mesh/changelog" & "#" & $replace(version, /-1|\./, ""),
@@ -7,7 +7,9 @@
     "sourceDirectory": "kong/" & repository,
     "digest": checksum_sha256,
     "isStable": true
-  },
+  }, function($l, $r){
+    $l.version < $r.version
+}),
   "changelogUrl": "https://docs.konghq.com/mesh/changelog",
   "homepage": "https://konghq.com/products/kong-mesh",
   "sourceUrl": "https://github.com/Kong/kong-mesh"
