@@ -54,7 +54,7 @@ jobs:
             --data 'page=1' \
             --data "page_size=$PAGE_SIZE" \
             'https://api.cloudsmith.io/v1/packages/kong/' |
-            jfq -q kong/kong-mesh/query.jsonata >tmp/kong/kong-mesh/index.html
+            jfq -q kong/kong-mesh/query.jsonata >tmp/kong/kong-mesh/releases.json
 
       - name: Kong Gateway
         env:
@@ -80,7 +80,7 @@ jobs:
             --data 'page=1' \
             --data "page_size=$PAGE_SIZE" \
             'https://api.cloudsmith.io/v1/packages/kong/' |
-            jfq -q kong/kong/query.jsonata >tmp/kong/kong/index.html
+            jfq -q kong/kong/query.jsonata >tmp/kong/kong/releases.json
 
       - name: Kong Gateway Enterprise
         env:
@@ -106,7 +106,7 @@ jobs:
             --data 'page=1' \
             --data "page_size=$PAGE_SIZE" \
             'https://api.cloudsmith.io/v1/packages/kong/' |
-            jfq -q kong/kong-ee/query.jsonata >tmp/kong/kong-ee/index.html
+            jfq -q kong/kong-ee/query.jsonata >tmp/kong/kong-ee/releases.json
 
       - uses: actions/upload-artifact@v4
         with:
