@@ -1,0 +1,25 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  // "extends": ["config:best-practices"],
+  "enabledManagers": ["custom.regex"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^hardening_manifest.ya?ml$"],
+      "matchStrings": [
+        "org\\.opencontainers\\.image\\.version:\\s+(?<currentValue>3\\.7\\.1\\.1)"
+      ],
+      "datasourceTemplate": "custom.pages",
+      // "depNameTemplate": "kong/kong-ee",
+      "packageNameTemplate": "kong/kong-ee",
+      "versioningTemplate": "loose"
+    }
+  ],
+  "customDatasources": {
+    "pages": {
+      "defaultRegistryUrlTemplate": "https://kong.github.io/renovate-datasource/kong/kong-ee/releases.json",
+      "format": "json",
+      "transformTemplates": []
+    }
+  }
+}
