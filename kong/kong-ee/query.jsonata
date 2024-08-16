@@ -1,16 +1,19 @@
 {
-  "releases": $sort($.{
-    "version": $replace(version, "-1", ""),
-    "isDeprecated": $not("latest" in tags.version),
-    "releaseTimestamp": uploaded_at,
-    "changelogUrl": "https://docs.konghq.com/gateway/changelog" & "#" & $replace(version, /-1|\./, ""),
-    "sourceUrl": cdn_url,
-    "sourceDirectory": "kong/" & repository,
-    "digest": checksum_sha256,
-    "isStable": true
-  }, function($l, $r){
-    $l.version < $r.version
-}),
+  "releases": $sort(
+    $.{
+      "version": $replace(version, "-1", ""),
+      // "isDeprecated": $not("latest" in tags.version),
+      // "releaseTimestamp": uploaded_at,
+      // "changelogUrl": "https://docs.konghq.com/gateway/changelog" & "#" & $replace(version, /-1|\./, ""),
+      // "sourceUrl": cdn_url,
+      // "sourceDirectory": "kong/" & repository,
+      "digest": checksum_sha256,
+      // "isStable": true
+    },
+    function($l, $r) {
+      $l.version < $r.version
+    }
+  ),
   "changelogUrl": "https://docs.konghq.com/gateway/changelog",
   "homepage": "https://konghq.com/products/kong-enterprise",
   "sourceUrl": "https://github.com/kong/kong-ee"
