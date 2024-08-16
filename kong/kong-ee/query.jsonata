@@ -2,6 +2,6 @@
   "releases": $.{
     "version": $replace(version, "-1", ""),
     "sourceUrl": cdn_url,
-    "digest": checksum_sha256,
+    "digest": checksum_sha256
   }
 }
