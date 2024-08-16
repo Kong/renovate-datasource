@@ -8,6 +8,7 @@
       "sourceUrl": cdn_url,
       "sourceDirectory": "kong/" & repository,
       "digest": checksum_sha256,
+      "newDigest": checksum_sha256,
       "isStable": true
     },
     function($l, $r) {

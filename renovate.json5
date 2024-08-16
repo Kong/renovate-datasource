@@ -1,34 +1,42 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // "extends": ["config:best-practices"],
-  "enabledManagers": ["custom.regex"],
+  "enabledManagers": [
+    "custom.regex",
+    "dockerfile"
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^hardening_manifest.ya?ml$"],
+      "fileMatch": [
+        "hardening_manifest.ya?ml"
+      ],
       "matchStrings": [
         "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
-        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+"
+        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
+        "filename:\\s+(\\s|\"|')?kong-enterprise.+\n.+\n.+\n\\s+value:\\s+(\\s|\"|')?(?<currentDigest>[a-f0-9]{64})"
       ],
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong-ee",
       "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "hardening_manifest.ya?ml"
+      ],
+      "matchStrings": [
+        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
+        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+"
+      ],
+      "datasourceTemplate": "custom.pages",
+      "depNameTemplate": "kong/kong",
+      "versioningTemplate": "loose"
     }
-    // {
-    //   "customType": "regex",
-    //   "fileMatch": ["^hardening_manifest.ya?ml$"],
-    //   "matchStrings": [
-    //     "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+(?:\\.\\d+){2}?)(\\s|\"|'|$)",
-    //     "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+(?:\\.\\d+){2}?)(\\s|\"|'|$)+"
-    //   ],
-    //   "datasourceTemplate": "custom.pages",
-    //   "depNameTemplate": "kong/kong",
-    //   "versioningTemplate": "loose"
-    // }
   ],
   "customDatasources": {
     "pages": {
-      "defaultRegistryUrlTemplate": "https://kong.github.io/renovate-datasource/kong/kong-ee/releases.json",
+      "defaultRegistryUrlTemplate": "https://kong.github.io/renovate-datasource/{{packageName}}/releases.json",
       "format": "json",
       "transformTemplates": []
     }
