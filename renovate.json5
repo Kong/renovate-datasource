@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // "extends": ["config:best-practices"],
+  "dependencyDashboard": true,
   "enabledManagers": [
     "custom.regex" // ,"dockerfile"
   ],
@@ -28,19 +29,33 @@
     //   "depNameTemplate": "kong/kong-ee",
     //   "versioningTemplate": "loose"
     // },
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.ya?ml"
+    //   ],
+    //   "matchStrings": [
+    //     "url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/\\d/x86_64/kong-enterprise-edition-fips-(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?).el\\d.x86_64.rpm\n  filename: kong-enterprise-edition-rhel\\d.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64}?)"
+    //   ],
+    //   "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong-ee",
+    //   "versioningTemplate": "loose",
+    //   "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{newMajor}}{{newMinor}}/rpm/el/9/x86_64/kong-enterprise-edition-fips-{{newValue}}.el9.x86_64.rpm\n  filename: kong-enterprise-edition-rhel9.noarch.rpm\n  validation:\n    type: sha256\n    value: {{newDigest}}"
+    // },
     {
       "customType": "regex",
       "fileMatch": [
         "hardening_manifest.ya?ml"
       ],
       "matchStrings": [
-        "url: https://packages.konghq.com/public/gateway-37/rpm/el/\\d/x86_64/kong-enterprise-edition-fips-(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?).el\\d.x86_64.rpm\n  filename: kong-enterprise-edition-rhel\\d.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64}?)"
+        "url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?).el\\d.x86_64.rpm\n  filename: kong\\.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64}?)"
       ],
       "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong-ee",
+      "depNameTemplate": "kong/kong",
       "versioningTemplate": "loose",
-      "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{newMajor}}{{newMinor}}/rpm/el/9/x86_64/kong-enterprise-edition-fips-{{newValue}}.el9.x86_64.rpm\n  filename: kong-enterprise-edition-rhel9.noarch.rpm\n  validation:\n    type: sha256\n    value: {{newDigest}}"
+      "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{newMajor}}{{newMinor}}/rpm/el/{{elVersion}}/x86_64/kong-enterprise-edition-fips-{{newValue}}.el{{elVersion}}.x86_64.rpm\n  filename: kong.rpm\n  validation:\n    type: sha256\n    value: {{newDigest}}"
     }
     // {
     //   "customType": "regex",

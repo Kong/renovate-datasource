@@ -24,7 +24,7 @@ labels:
 
 resources:
 - url: https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-3.4.2.el9.x86_64.rpm
-  filename: kong-rhel8.amd64.rpm
+  filename: kong.rpm
   validation:
     type: sha256
     value: 74dacae7e82ed2de8bad5882e085a68a4cfda3d12bb88980e0cdc98585de7dd6

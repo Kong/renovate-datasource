@@ -25,7 +25,7 @@ labels:
 
 resources:
 - url: https://packages.konghq.com/public/gateway-37/rpm/el/9/x86_64/kong-enterprise-edition-fips-3.7.1.1.el9.x86_64.rpm
-  filename: kong-enterprise-edition-rhel9.noarch.rpm
+  filename: kong-enterprise-edition.noarch.rpm
   validation:
     type: sha256
     value: f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd
