@@ -16,7 +16,7 @@ defaults:
     shell: bash
 
 env:
-  PAGE_SIZE: 3
+  PAGE_SIZE: 50
 
 jobs:
   serialize:
