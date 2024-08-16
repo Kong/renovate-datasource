@@ -7,24 +7,24 @@
       "customType": "regex",
       "fileMatch": ["^hardening_manifest.ya?ml$"],
       "matchStrings": [
-        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+(?:\\.\\d+){3}?)(\\s|\"|'|$)",
-        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+(?:\\.\\d+){3}?)(\\s|\"|'|$)+"
+        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
+        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+"
       ],
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong-ee",
       "versioningTemplate": "loose"
-    },
-    {
-      "customType": "regex",
-      "fileMatch": ["^hardening_manifest.ya?ml$"],
-      "matchStrings": [
-        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+(?:\\.\\d+){2}?)(\\s|\"|'|$)",
-        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+(?:\\.\\d+){2}?)(\\s|\"|'|$)+"
-      ],
-      "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong",
-      "versioningTemplate": "loose"
     }
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": ["^hardening_manifest.ya?ml$"],
+    //   "matchStrings": [
+    //     "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+(?:\\.\\d+){2}?)(\\s|\"|'|$)",
+    //     "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+(?:\\.\\d+){2}?)(\\s|\"|'|$)+"
+    //   ],
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong",
+    //   "versioningTemplate": "loose"
+    // }
   ],
   "customDatasources": {
     "pages": {
