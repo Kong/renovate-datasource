@@ -24,11 +24,11 @@ labels:
   mil.dso.ironbank.product.name: KongEE
 
 resources:
-- url: https://packages.konghq.com/public/gateway-37/rpm/el/9/x86_64/kong-enterprise-edition-fips-3.7.1.1.el9.x86_64.rpm
+- url: https://packages.konghq.com/public/gateway-37/rpm/el/9/x86_64/kong-enterprise-edition-fips-3.7.1.2.el9.x86_64.rpm
   filename: kong-enterprise-edition-rhel9.noarch.rpm
   validation:
     type: sha256
-    value: f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd
+    value: 1fe645fc6736690d872da3df7071fc5c18c260720178177d085b04ec1eb2f146
 - url: https://github.com/kong/deck/releases/download/v1.38.1/deck_1.38.1_linux_amd64.tar.gz
   filename: deck.tar.gz
   validation:
