@@ -2,37 +2,61 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // "extends": ["config:best-practices"],
   "enabledManagers": [
-    "custom.regex",
-    "dockerfile"
+    "custom.regex" // ,"dockerfile"
   ],
+  "hostRules": [
+    {
+      "matchHost": "registry1.dsop.io",
+      "token": "$REGISTRY1_TOKEN"
+    }
+  ],
+  "regex": {
+    "pinDigests": true
+  },
   "customManagers": [
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.ya?ml"
+    //   ],
+    //   "matchStrings": [
+    //     "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
+    //     "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+"
+    //   ],
+    //   "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong-ee",
+    //   "versioningTemplate": "loose"
+    // },
     {
       "customType": "regex",
       "fileMatch": [
         "hardening_manifest.ya?ml"
       ],
       "matchStrings": [
-        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
-        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
-        "filename:\\s+(\\s|\"|')?kong-enterprise.+\n.+\n.+\n\\s+value:\\s+(\\s|\"|')?(?<currentDigest>[a-f0-9]{64})"
+        "url: https://packages.konghq.com/public/gateway-37/rpm/el/\\d/x86_64/kong-enterprise-edition-fips-(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?).el\\d.x86_64.rpm\n  filename: kong-enterprise-edition-rhel\\d.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64}?)"
       ],
+      "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong-ee",
-      "versioningTemplate": "loose"
-    },
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "hardening_manifest.ya?ml"
-      ],
-      "matchStrings": [
-        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
-        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+"
-      ],
-      "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong",
-      "versioningTemplate": "loose"
+      "versioningTemplate": "loose",
+      "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{newMajor}}{{newMinor}}/rpm/el/9/x86_64/kong-enterprise-edition-fips-{{newValue}}.el9.x86_64.rpm\n  filename: kong-enterprise-edition-rhel9.noarch.rpm\n  validation:\n    type: sha256\n    value: {{newDigest}}"
     }
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.ya?ml"
+    //   ],
+    //   "matchStrings": [
+    //     "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
+    //     "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
+    //     "filename:\\s+(\\s|\"|')?kong-rhel.+\n.+\n.+\n\\s+value:\\s+(\\s|\"|')?(?<currentDigest>[a-f0-9]{64})"
+    //   ],
+    //   "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong",
+    //   "versioningTemplate": "loose"
+    // }
   ],
   "customDatasources": {
     "pages": {
