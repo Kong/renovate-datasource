@@ -53,7 +53,7 @@
         "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
         "- url: https://packages.konghq.com/.+kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?)\\..+\\.rpm\\n  filename: kong\\.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>)[a-f0-9]{64}"
       ],
-      "matchStringsStrategy": "combination",
+      "matchStringsStrategy": "any",
       // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong"
