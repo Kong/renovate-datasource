@@ -54,7 +54,8 @@
       "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong",
-      "versioningTemplate": "loose"
+      "versioningTemplate": "loose",
+      "autoReplaceStringTemplate": "gateway-{{{ newMajor }}}{{{ newMinor }}}/rpm/el/\\d/x86_64/kong-{{{ newValue }}}.el\\d.x86_64.rpm"
     }
     // {
     //   "customType": "regex",
