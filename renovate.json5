@@ -43,20 +43,34 @@
     //   "versioningTemplate": "loose",
     //   "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{newMajor}}{{newMinor}}/rpm/el/9/x86_64/kong-enterprise-edition-fips-{{newValue}}.el9.x86_64.rpm\n  filename: kong-enterprise-edition-rhel9.noarch.rpm\n  validation:\n    type: sha256\n    value: {{newDigest}}"
     // },
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
+    //     "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
+    //     "- url: https://packages.konghq.com/.+?/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?)\\..+?\\.rpm\\n  filename: kong\\.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>)[a-f0-9]{64}"
+    //   ],
+    //   "matchStringsStrategy": "any",
+    //   // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong"
+    // },
     {
       "customType": "regex",
       "fileMatch": [
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
-        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
-        "- url: https://packages.konghq.com/.+kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?)\\..+\\.rpm\\n  filename: kong\\.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>)[a-f0-9]{64}"
+        "(?<currentValue>- url: https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-\\d+\\.\\d+\\.\\d+\\.el.+\\n  filename: kong\\.rpm\\n)"
       ],
       "matchStringsStrategy": "any",
-      // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
+      "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
       "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong"
+      "depNameTemplate": "kong/kong",
+      "autoReplaceStringTemplate": "- url: https://packages.konghq.com/public/gateway-{{{ newValue }}}/rpm/el/9/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?)\\..+?\\.rpm\\n  filename: kong\\.rpm\\n"
     }
     // {
     //   "customType": "regex",
@@ -80,5 +94,15 @@
       "format": "json",
       "transformTemplates": []
     }
-  }
+  },
+  "packageRules": [
+    {
+      "matchDepTypes": ["kong/kong"],
+      "groupName": "kong"
+    },
+    {
+      "matchDepTypes": ["kong/kong-ee"],
+      "groupName": "kongEE"
+    }
+  ]
 }
