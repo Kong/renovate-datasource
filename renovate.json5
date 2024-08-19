@@ -51,28 +51,12 @@
       "matchStrings": [
         "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
         "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
-        "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?)",
-        "value: (?<currentDigest>)[a-f0-9]{64}"
+        "- url: https://packages.konghq.com/.+kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?)\\..+\\.rpm\\n  filename: kong\\.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>)[a-f0-9]{64}"
       ],
       "matchStringsStrategy": "combination",
       // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong"
-    },
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "hardening_manifest.yaml"
-      ],
-      "matchStrings": [
-        "gateway-\\d\\d",
-        "(?<currentValue>\\d+\\.\\d+\\.\\d+?)"
-      ],
-      "matchStringsStrategy": "combination",
-      // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
-      "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong",
-      "autoReplaceStringTemplate": "gateway-{{{ newMajor }}}{{{ newMinor }}}"
     }
     // {
     //   "customType": "regex",
