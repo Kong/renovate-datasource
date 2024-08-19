@@ -49,13 +49,12 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+?).el\\d.x86_64.rpm\n  filename: kong\\.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64}?)"
+        "gateway-\\d\\d/rpm/el/\\d/x86_64/kong-(?<currentValue>\\d\\.\\d\\.\\d).el\\d.x86_64.rpm"
       ],
       "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong",
-      "versioningTemplate": "loose",
-      "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/{{{elVersion}}}/x86_64/kong-enterprise-edition-fips-{{{newValue}}}.el{{{elVersion}}}.x86_64.rpm\n  filename: kong.rpm\n  validation:\n    type: sha256\n    value: {{{newDigest}}}"
+      "versioningTemplate": "loose"
     }
     // {
     //   "customType": "regex",
