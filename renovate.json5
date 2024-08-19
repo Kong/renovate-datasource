@@ -64,13 +64,13 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el.+\\n  filename: kong\\.rpm\\n"
+        "https://packages.konghq.com/public/(?<currentValue>gateway-\\d\\d/rpm/el/\\d/x86_64/kong-\\d+\\.\\d+\\.\\d+\\.el\\d\\.x86_64\\.rpm"
       ],
       "matchStringsStrategy": "any",
-      // "extractVersionTemplate": "kong-(?<version>\\d+\\.\\d+\\.\\d+)",
+      "extractVersionTemplate": "kong-(?<version>\\d+\\.\\d+\\.\\d+)",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong",
-      "autoReplaceStringTemplate": "{{{ registryUrl }}}\\n  filename: kong\\.rpm\\n"
+      "autoReplaceStringTemplate": "https://packages.konghq.com/public/{{{ newValue }}}"
     }
     // {
     //   "customType": "regex",
