@@ -11,9 +11,9 @@
       "token": "$REGISTRY1_TOKEN"
     }
   ],
-  // "regex": {
-  //   "pinDigests": true
-  // },
+  "regex": {
+    "pinDigests": true
+  },
   "customManagers": [
     // {
     //   "customType": "regex",
@@ -49,13 +49,30 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "/gateway-\\d\\d/rpm/el/9/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el"
+        "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)",
+        "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+?)(\\s|\"|'|$)+",
+        "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+        "value: (?<currentDigest>)[a-f0-9]{64}"
       ],
-      // "matchStringsStrategy": "combination",
+      "matchStringsStrategy": "combination",
+      // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
+      "datasourceTemplate": "custom.pages",
+      "depNameTemplate": "kong/kong"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "hardening_manifest.yaml"
+      ],
+      "matchStrings": [
+        "gateway-\\d\\d",
+        "(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "matchStringsStrategy": "combination",
       // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong",
-      "autoReplaceStringTemplate": "/gateway-{{{replace '\\.' '' newValue}}}/rpm/el/9/x86_64/kong-{{{ newValue }}}.el"
+      "autoReplaceStringTemplate": "gateway-{{{ newMajor }}}{{{ newMinor }}}"
     }
     // {
     //   "customType": "regex",
