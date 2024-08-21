@@ -64,14 +64,13 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<depType>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el"
+        "https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/\\d/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el"
       ],
       "matchStringsStrategy": "any",
-      // "extractVersionTemplate": "kong-(?<version>\\d+\\.\\d+\\.\\d+)",
       "datasourceTemplate": "custom.pages",
+      // "extractVersionTemplate": "kong-(?<version>\\d\\.\\d\\.\\d)\\.el",
       "depNameTemplate": "kong/kong",
-      // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/{{{depType}}}/x86_64/kong-{{{newVersion}}}.el"
-      "autoReplaceStringTemplate": "{{{sourceUrl}}}"
+      "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-__/rpm/el/_/x86_64/kong-{{{newValue}}}.el"
     }
     // {
     //   "customType": "regex",
@@ -98,11 +97,11 @@
   },
   "packageRules": [
     {
-      "matchDepTypes": ["kong/kong"],
+      "matchDepNames": ["kong/kong"],
       "groupName": "kong"
     },
     {
-      "matchDepTypes": ["kong/kong-ee"],
+      "matchDepNames": ["kong/kong-ee"],
       "groupName": "kongEE"
     }
   ]
