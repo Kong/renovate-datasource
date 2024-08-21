@@ -23,11 +23,11 @@ labels:
   mil.dso.ironbank.product.name: Kong
 
 resources:
-- url: https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-3.4.2.el9.x86_64.rpm
+- url: https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-3.7.1.el9.x86_64.rpm
   filename: kong.rpm
   validation:
     type: sha256
-    value: 74dacae7e82ed2de8bad5882e085a68a4cfda3d12bb88980e0cdc98585de7dd6
+    value: cad6dcd3011b0086fdeec294a749d124989c0b7a99426ba158b49c25886798dd
 
 maintainers:
 - name: Ahmed Koshok
