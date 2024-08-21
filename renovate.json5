@@ -67,16 +67,16 @@
         // "https://packages.konghq.com/public/(?<repo>gateway-\\d\\d)/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+))\\.el\\d\\.x86_64\\.rpm"
         // "^resources:\\n-\\ url:[^\\n]+kong-\\d.+?$",
         // "https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el\\d\\.x86_64\\.rpm"
-        "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+        // "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+        "resources:\\n- url: (?<url>.+?/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+).+?)\\n  filename: kong.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>[a-f0-9]{64})"
       ],
-      "matchStringsStrategy": "recursive",
+      "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
-      // "extractVersionTemplate": "kong-(?<version>\\d\\.\\d\\.\\d)\\.el",
       "depNameTemplate": "kong/kong",
       // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el"
       // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-{{{ newMinor }}}/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el{{{ elVersion }}}.x86_64.rpm"
-      // "autoReplaceStringTemplate": "{{{ sourceUrl }}}"
-      "autoReplaceStringTemplate": "{{{ sourceDirectory }}}"
+      "autoReplaceStringTemplate": "{{{ sourceUrl }}}"
+      // "autoReplaceStringTemplate": "{{{ sourceDirectory }}}"
     }
     // {
     //   "customType": "regex",
