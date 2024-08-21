@@ -95,14 +95,14 @@
       "transformTemplates": []
     }
   },
-  "packageRules": [
-    {
-      "matchDepNames": ["kong/kong"],
-      "groupName": "kong"
-    },
-    {
-      "matchDepNames": ["kong/kong-ee"],
-      "groupName": "kongEE"
-    }
-  ]
+  // "packageRules": [
+  //   {
+  //     "matchDepNames": ["kong/kong"],
+  //     "groupName": "kong"
+  //   },
+  //   {
+  //     "matchDepNames": ["kong/kong-ee"],
+  //     "groupName": "kongEE"
+  //   }
+  // ]
 }
