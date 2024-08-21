@@ -73,7 +73,7 @@
         // "(?<currentDigest>[a-f0-9]{64})",
         // "https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el9\\.x86_64\\.rpm"
       ],
-      "matchStringsStrategy": "combination",
+      "matchStringsStrategy": "recursive",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong",
       // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)"
