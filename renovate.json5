@@ -69,17 +69,19 @@
         // "https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el\\d\\.x86_64\\.rpm"
         // "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)"
         // "resources:\\n- url: (?<currentValue>.+?/kong-(?<extractVersion>\\d+\\.\\d+\\.\\d+).+?)\\n  filename: kong.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>[a-f0-9]{64})"
-        "(?<currentDigest>[a-f0-9]{64})",
-        "(?<currentValue>https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-(?<extractVersion>\\d+\\.\\d+\\.\\d+)\\.el9\\.x86_64\\.rpm)"
+        "resources:\\n- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el\\d\\.x86_64\\.rpm\\n  filename: kong.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>[a-f0-9]{64})"
+        // "(?<currentDigest>[a-f0-9]{64})",
+        // "https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el9\\.x86_64\\.rpm"
       ],
       "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong"
+      "depNameTemplate": "kong/kong",
       // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)"
       // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el"
       // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-{{{ newMinor }}}/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el{{{ elVersion }}}.x86_64.rpm"
       // "autoReplaceStringTemplate": "{{{ sourceUrl }}}"
       // "autoReplaceStringTemplate": "{{{ newValue }}}"
+      "autoReplaceStringTemplate": "resources:\n- url: https://packages.konghq.com/public/gateway-__/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el{{{ elVersion }}}.x86_64.rpm\n  filename: kong.rpm\n  validation:\n    type: sha256\n    value: {{{ newDigest }}}"
     }
     // {
     //   "customType": "regex",
@@ -101,7 +103,9 @@
     "pages": {
       "defaultRegistryUrlTemplate": "https://kong.github.io/renovate-datasource/{{packageName}}/releases.json",
       "format": "json",
-      "transformTemplates": []
+      "transformTemplates": [
+        // "{\"releases\": $.releases.{\"version\": sourceUrl}}"
+      ]
     }
   },
   // "packageRules": [
