@@ -1,7 +1,7 @@
 {
   "releases": $sort(
     $.{
-      "version": cdn_url,
+      "version": $replace(version, "-1", ""),
       "isDeprecated": $not("latest" in tags.version),
       "releaseTimestamp": uploaded_at,
       "changelogUrl": "https://github.com/Kong/kong/blob/master/CHANGELOG" & ($match(version, /^(?:[0-2])\./) ? "-OLD" : "") & ".md" & "#" & $replace(version, /-1|\./, ""),
