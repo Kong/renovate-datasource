@@ -6,8 +6,6 @@
       "releaseTimestamp": uploaded_at,
       "changelogUrl": "https://github.com/Kong/kong/blob/master/CHANGELOG" & ($match(version, /^(?:[0-2])\./) ? "-OLD" : "") & ".md" & "#" & $replace(version, /-1|\./, ""),
       "sourceUrl": cdn_url,
-      "sourceDirectory": "kong/" & repository,
-      "digest": checksum_sha256,
       "newDigest": checksum_sha256,
       "isStable": true
     },
