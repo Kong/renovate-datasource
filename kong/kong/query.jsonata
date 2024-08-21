@@ -16,5 +16,4 @@
   ),
   "changelogUrl": "https://github.com/Kong/kong/blob/master/CHANGELOG.md",
   "homepage": "https://konghq.com/products/kong-gateway",
-  "sourceUrl": "https://github.com/kong/kong"
 }
