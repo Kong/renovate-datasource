@@ -69,7 +69,7 @@
         // "https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el\\d\\.x86_64\\.rpm"
         // "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)"
         // "resources:\\n- url: (?<currentValue>.+?/kong-(?<extractVersion>\\d+\\.\\d+\\.\\d+).+?)\\n  filename: kong.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>[a-f0-9]{64})"
-        "resources:\\n- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<elVersion>\\d)/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el\\d\\.x86_64\\.rpm\\n  filename: kong.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>[a-f0-9]{64})"
+        "resources:\\n- url: https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el9\\.x86_64\\.rpm\\n  filename: kong.rpm\\n  validation:\\n    type: sha256\\n    value: (?<currentDigest>[a-f0-9]{64})"
         // "(?<currentDigest>[a-f0-9]{64})",
         // "https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el9\\.x86_64\\.rpm"
       ],
@@ -81,7 +81,7 @@
       // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-{{{ newMinor }}}/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el{{{ elVersion }}}.x86_64.rpm"
       // "autoReplaceStringTemplate": "{{{ sourceUrl }}}"
       // "autoReplaceStringTemplate": "{{{ newValue }}}"
-      "autoReplaceStringTemplate": "resources:\n- url: https://packages.konghq.com/public/gateway-__/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el{{{ elVersion }}}.x86_64.rpm\n  filename: kong.rpm\n  validation:\n    type: sha256\n    value: {{{ newDigest }}}"
+      "autoReplaceStringTemplate": "resources:\n- url: https://packages.konghq.com/public/gateway-34/rpm/el/9/x86_64/kong-{{{ newValue }}}.el9.x86_64.rpm\n  filename: kong.rpm\n  validation:\n    type: sha256\n    value: {{{ newDigest }}}"
     }
     // {
     //   "customType": "regex",
