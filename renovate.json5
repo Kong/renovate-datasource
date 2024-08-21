@@ -71,7 +71,7 @@
       // "extractVersionTemplate": "kong-(?<version>\\d\\.\\d\\.\\d)\\.el",
       "depNameTemplate": "kong/kong",
       // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el"
-      "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-{{#if newMinor}}{{{ newMinor }}}{{else}}{{{ minor }}}{{/if}}/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el"
+      "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-{{#if isMinor}}_{{else}}__{{/if}}{{#if newMinor}}___{{else}}____{{/if}}/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el"
     }
     // {
     //   "customType": "regex",
