@@ -34,5 +34,11 @@
         // "{\"releases\": $.releases.{\"version\": sourceUrl}}"
       ]
     }
-  }
+  },
+  "packageRules": [
+    {
+      "matchDatasources": ["custom.pages"],
+      "groupName": "custom"
+    }
+  ]
 }
