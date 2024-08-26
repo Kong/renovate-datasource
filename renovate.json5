@@ -17,12 +17,6 @@
       "matchStringsStrategy": "recursive",
       "datasourceTemplate": "custom.pages",
       "packageNameTemplate": "kong/kong",
-      // "versioningTemplate": "kong",
-      // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)"
-      // "extractVersionTemplate": "(?<version>\\d+\\.\\d+\\.\\d+)"
-      // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el"
-      // "autoReplaceStringTemplate": "https://packages.konghq.com/public/gateway-{{{ newMinor }}}/rpm/el/{{{ elVersion }}}/x86_64/kong-{{{ newValue }}}.el{{{ elVersion }}}.x86_64.rpm"
-      // "autoReplaceStringTemplate": "{{{ sourceUrl }}}"
       "autoReplaceStringTemplate": "resources:\\n- url: {{{depName}}}{{{newValue}}}.el"
     }
   ],
