@@ -1,0 +1,14 @@
+{
+  "releases": $sort(
+    $.{
+      "changelogUrl": "https://github.com/Kong/deck/blob/main/CHANGELOG.md#" & $replace(name, /^v|\./, ""),
+      "version": name,
+      "digest": assets[$contains(name, "linux_amd64")].digest,
+      "sourceUrl": assets[$contains(name, "linux_amd64")].browser_download_url
+    },
+    function($l, $r) {
+      $l.version < $r.version
+    }
+  ),
+  "homepage": "https://konghq.com/products/kong-gateway"
+}
