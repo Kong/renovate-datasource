@@ -20,6 +20,8 @@ defaults:
     shell: bash
 
 env:
+  CLOUDSMITH_QUERY: ${{ inputs.query || '' }}
+  ORG_REPO: ${{ inputs.org_repo }}
   PAGE_SIZE: 50
 
 jobs:
@@ -37,12 +39,13 @@ jobs:
         id: prereq
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_REPO: ${{ inputs.org_repo }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
 
-          cache_key="$(gh api repos/${ORG_REPO} | md5sum | cut -d' ' -f1)"
-          echo "cache_key=${cache_key}" >> "$GITHUB_OUTPUT"
+          if [[ "$CLOUDSMITH_QUERY" == '' ]]; then
+            cache_key="$(gh api repos/${ORG_REPO} | md5sum | cut -d' ' -f1)"
+            echo "cache_key=${cache_key}" >> "$GITHUB_OUTPUT"
+          fi
 
           echo "repo=${ORG_REPO#*/}" >> "$GITHUB_OUTPUT"
 
@@ -50,7 +53,6 @@ jobs:
         if: inputs.query == '' && inputs.org_repo == 'kong/deck'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_REPO: kong/deck
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
@@ -105,7 +107,6 @@ jobs:
           steps.cache-tarballs.outputs.cache-hit != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
@@ -122,7 +123,6 @@ jobs:
         if: inputs.query == '' && inputs.org_repo != 'kong/deck'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
@@ -158,8 +158,6 @@ jobs:
         if: inputs.query != ''
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
-          CLOUDSMITH_QUERY: ${{ inputs.query }}
-          ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
