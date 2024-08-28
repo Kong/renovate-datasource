@@ -56,11 +56,11 @@ jobs:
       #       'https://api.cloudsmith.io/v1/packages/kong/' |
       #       jfq -q kong/kong-mesh/query.jsonata >tmp/kong/kong-mesh/releases.json
 
-      - name: Serialize GitHub Data
+      - name: Serialize GitHub Data (deck)
         if: ${{ inputs.query == 'unset' && inputs.org_repo == 'kong/deck' }}
         env:
-          VERBOSE: ${{ runner.debug }}
           ORG_REPO: kong/deck
+          VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
 
@@ -100,8 +100,8 @@ jobs:
       - name: Serialize GitHub Data
         if: ${{ inputs.query == 'unset' }}
         env:
-          VERBOSE: ${{ runner.debug }}
           ORG_REPO: ${{ inputs.org_repo }}
+          VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
 
@@ -125,6 +125,7 @@ jobs:
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           CLOUDSMITH_QUERY: ${{ inputs.query }}
+          ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
