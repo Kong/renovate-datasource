@@ -40,7 +40,7 @@ jobs:
           ORG_REPO: ${{ inputs.org_repo }}
         run: |
           echo "cache_key=$(
-            gh api repos/${ORG_REPO} | md5sum
+            gh api repos/${ORG_REPO} | md5sum | cut -d' ' -f1
           )" >> "$GITHUB_OUTPUT"
 
           echo "repo=${ORG_REPO#*/}" >> "$GITHUB_OUTPUT"
