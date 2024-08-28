@@ -61,6 +61,7 @@ jobs:
           inputs.query == '' &&
           inputs.org_repo == 'kong/deck'
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_REPO: kong/deck
           VERBOSE: ${{ runner.debug }}
         run: |
@@ -102,6 +103,7 @@ jobs:
       - name: Serialize GitHub Data
         if: ${{ inputs.query == '' }}
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
         run: |
