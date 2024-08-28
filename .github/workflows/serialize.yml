@@ -140,13 +140,15 @@ jobs:
           jq \
             --slurp \
             '
-              .[0] as $sums | .[1][] |= (
-                  . as $releases | foreach $releases as $r (
-                      {};
-                      . + $r + {
-                          "digest": $sums[] | select(.name == "kubernetes-ingress-controller-\($r.name | sub("v";"")).tar.gz").digest
-                      }
-                  )
+              (
+                .[0] as $sums | .[1][] |= (
+                    . as $releases | foreach $releases as $r (
+                        {};
+                        . + $r + {
+                            "digest": $sums[] | select(.name == "kubernetes-ingress-controller-\($r.name | sub("v";"")).tar.gz").digest
+                        }
+                    )
+                )
               )[1]
             ' ${ORG_REPO#*/}_checksums.json ${ORG_REPO#*/}_releases.json \
               >"tmp/${ORG_REPO}/releases.json"
