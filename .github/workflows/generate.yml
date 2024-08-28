@@ -8,7 +8,7 @@ on:
   push:
     paths:
       - "**.jsonata"
-      - ".github/workflows/generate.yml"
+      - ".github/workflows/*.yml"
 
 permissions:
   contents: read
