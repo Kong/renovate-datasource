@@ -1,0 +1,35 @@
+apiVersion: v1
+
+name: kong/kong/kongmesh
+
+tags:
+- 2.7.4
+- latest
+
+args:
+  BASE_IMAGE: redhat/ubi/ubi9
+  BASE_TAG: '9.4'
+
+labels:
+  org.opencontainers.image.title: kongmesh
+  org.opencontainers.image.description: The control plane for modern connectivity,
+    delivering high performance and reliability with Envoy.
+  org.opencontainers.image.licenses: Apache v2.0
+  org.opencontainers.image.url: https://docs.konghq.com/mesh/
+  org.opencontainers.image.vendor: Kong
+  org.opencontainers.image.version: 2.7.4
+  mil.dso.ironbank.image.keywords: mesh,envoy,microservices, zero-trust
+  mil.dso.ironbank.image.type: commercial
+  mil.dso.ironbank.product.name: kongmesh
+
+resources:
+- filename: kong-mesh-rhel-amd64.tar.gz
+  url: https://packages.konghq.com/public/kong-mesh-binaries-release/raw/names/kong-mesh-linux-amd64/versions/2.7.4/kong-mesh-2.7.4-linux-amd64.tar.gz
+  validation:
+    type: sha256
+    value: 375747ea86c053470c4c95a60bdd38d9268f8ab900ff5acf319deda4188642b8
+
+maintainers:
+- name: Ahmed Koshok
+  username: akoshok
+  email: ahmed.koshok@konghq.com

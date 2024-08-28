@@ -1,0 +1,18 @@
+{
+  "releases": $sort(
+    $.{
+      "changelogUrl": "https://github.com/kumahq/kuma/blob/master/CHANGELOG.md#" & $replace(version, /\./, ""),
+      "digest": checksum_sha256,
+      "isDeprecated": $not("latest" in tags.version),
+      "isStable": true,
+      "newDigest": checksum_sha256,
+      "releaseTimestamp": uploaded_at,
+      "sourceUrl": cdn_url,
+      "version": version
+    },
+    function($l, $r) {
+      $l.version < $r.version
+    }
+  ),
+  "homepage": "https://kuma.io"
+}

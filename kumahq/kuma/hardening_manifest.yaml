@@ -1,0 +1,50 @@
+---
+apiVersion: v1
+
+# The repository name in registry1, excluding /ironbank/
+name: kong/kong/kuma
+
+# List of tags to push for the repository in registry1
+# The most specific version should be the first tag and will be shown
+# on ironbank.dsop.io
+tags:
+- 2.7.4
+- latest
+
+# Build args passed to Dockerfile ARGs
+args:
+  BASE_IMAGE: redhat/ubi/ubi9
+  BASE_TAG: '9.4'
+
+# Docker image labels
+labels:
+  org.opencontainers.image.title: kuma
+  ## Human-readable description of the software packaged in the image
+  org.opencontainers.image.description: The open-source control plane for modern connectivity, delivering high performance and reliability with Envoy.
+  ## License(s) under which contained software is distributed
+  org.opencontainers.image.licenses: Apache v2.0
+  ## URL to find more information on the image
+  org.opencontainers.image.url: https://kuma.io/docs/
+  ## Name of the distributing entity, organization or individual
+  org.opencontainers.image.vendor: Kong
+  org.opencontainers.image.version: 2.7.4
+  ## Keywords to help with search (ex. "cicd,gitops,golang")
+  mil.dso.ironbank.image.keywords: mesh,envoy,microservices, servicemesh, zero-trust
+  ## This value can be "opensource" or "commercial"
+  mil.dso.ironbank.image.type: opensource
+  ## Product the image belongs to for grouping multiple images
+  mil.dso.ironbank.product.name: kuma
+
+# List of resources to make available to the offline build context
+resources:
+- filename: kuma-rhel-amd64.tar.gz
+  url: https://packages.konghq.com/public/kuma-binaries-release/raw/names/kuma-linux-amd64/versions/2.7.4/kuma-2.7.4-linux-amd64.tar.gz
+  validation:
+    type: sha256
+    value: 853e9395e9db7a1d4ab1700698152da64da75544a0a65bafdfeeaa015f540c1b
+
+# List of project maintainers
+maintainers:
+- name: Ahmed Koshok
+  username: akoshok
+  email: ahmed.koshok@konghq.com
