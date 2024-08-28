@@ -1,19 +1,17 @@
 {
   "releases": $sort(
     $.{
-      "version": $replace(version, "-1", ""),
-      "releaseTimestamp": uploaded_at,
-      "changelogUrl": "https://docs.konghq.com/mesh/changelog" & "#" & $replace(version, /-1|\./, ""),
-      "sourceUrl": cdn_url,
-      "sourceDirectory": "kong/" & repository,
+      "changelogUrl": "https://docs.konghq.com/mesh/changelog" & "#" & $replace(version, /\./, ""),
       "digest": checksum_sha256,
-      "isStable": true
+      "isStable": true,
+      "newDigest": checksum_sha256,
+      "releaseTimestamp": uploaded_at,
+      "sourceUrl": cdn_url,
+      "version": version
     },
     function($l, $r) {
       $l.version < $r.version
     }
   ),
-  "changelogUrl": "https://docs.konghq.com/mesh/changelog",
-  "homepage": "https://konghq.com/products/kong-mesh",
-  "sourceUrl": "https://github.com/Kong/kong-mesh"
+  "homepage": "https://konghq.com/products/kong-mesh"
 }

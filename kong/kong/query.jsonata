@@ -1,14 +1,14 @@
 {
   "releases": $sort(
     $.{
-      "version": $replace(version, "-1", ""),
-      "isDeprecated": $not("latest" in tags.version),
-      "releaseTimestamp": uploaded_at,
       "changelogUrl": "https://github.com/Kong/kong/blob/master/CHANGELOG" & ($match(version, /^(?:[0-2])\./) ? "-OLD" : "") & ".md" & "#" & $replace(version, /-1|\./, ""),
-      "sourceUrl": cdn_url,
-      "newDigest": checksum_sha256,
       "digest": checksum_sha256,
-      "isStable": true
+      "isDeprecated": $not("latest" in tags.version),
+      "isStable": true,
+      "newDigest": checksum_sha256,
+      "releaseTimestamp": uploaded_at,
+      "sourceUrl": cdn_url,
+      "version": $replace(version, "-1", "")
     },
     function($l, $r) {
       $l.version < $r.version
