@@ -8,7 +8,7 @@ on:
       query:
         description: "Cloudsmith query used to fetch package json data"
         required: false
-        default: "unset"
+        default: ""
         type: string
       org_repo:
         description: "GitHub org & repo combination used to find jsonata query file path"
@@ -57,7 +57,9 @@ jobs:
       #       jfq -q kong/kong-mesh/query.jsonata >tmp/kong/kong-mesh/releases.json
 
       - name: Serialize GitHub Data (deck)
-        if: ${{ inputs.query == 'unset' && inputs.org_repo == 'kong/deck' }}
+        if: >-
+          inputs.query == '' &&
+          inputs.org_repo == 'kong/deck'
         env:
           ORG_REPO: kong/deck
           VERBOSE: ${{ runner.debug }}
@@ -98,7 +100,7 @@ jobs:
               >"tmp/${ORG_REPO}/releases.json"
 
       - name: Serialize GitHub Data
-        if: ${{ inputs.query == 'unset' }}
+        if: ${{ inputs.query == '' }}
         env:
           ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
@@ -121,7 +123,7 @@ jobs:
                 >"tmp/${ORG_REPO}/releases.json"
 
       - name: Serialize Cloudsmith Data
-        if: ${{ inputs.query != 'unset' }}
+        if: inputs.query != ''
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           CLOUDSMITH_QUERY: ${{ inputs.query }}

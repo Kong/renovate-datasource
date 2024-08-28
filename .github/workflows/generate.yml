@@ -48,7 +48,7 @@ jobs:
 
           - org_repo: kong/deck
 
-          - org_repo: kong/kubernetes-ingress-controller
+          # - org_repo: kong/kubernetes-ingress-controller
 
           - org_repo: kumahq/kuma
             query: >-
