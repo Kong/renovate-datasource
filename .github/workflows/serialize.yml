@@ -41,9 +41,7 @@ jobs:
           echo "repo=${ORG_REPO#*/}" >> "$GITHUB_OUTPUT"
 
       - name: Serialize GitHub Data (deck)
-        if: >-
-          inputs.query == '' &&
-          inputs.org_repo == 'kong/deck'
+        if: inputs.query == '' && inputs.org_repo == 'kong/deck'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_REPO: kong/deck
@@ -88,31 +86,60 @@ jobs:
             head -n+25 ${ORG_REPO#*/}_*.json
           fi
 
-      - name: Serialize GitHub Data
-        if: >-
-          inputs.query == '' &&
-          inputs.org_repo != 'kong/deck'
+      - name: Serialize GitHub Data (source)
+        if: inputs.query == '' && inputs.org_repo != 'kong/deck'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_REPO: ${{ inputs.org_repo }}
+          ORG_REPO: kong/deck
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
 
           mkdir -pv "tmp/${ORG_REPO}"
 
-          # --get required for --data* flags to be query params
-          # shellcheck disable=SC2086
-          curl ${_V:-} --get --location --fail \
-            -H 'accept: application/json' \
-            -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
-            --data-urlencode "query=${CLOUDSMITH_QUERY}" \
-            --data 'page=1' \
-            --data "page_size=${PAGE_SIZE}" \
-            'https://api.cloudsmith.io/v1/packages/kong/' |
-            jfq \
-              -q "${ORG_REPO}/query.jsonata" \
-                >"tmp/${ORG_REPO}/releases.json"
+          for v in $(gh api "repos/${ORG_REPO}/releases" --jq '.[]|.name'); do
+            gh release download "$v" -R "$ORG_REPO" --archive tar.gz;
+          done
+
+          sha256 ${ORG_REPO#*/}-*.tar.gz |
+            jq -R | \
+            jq -s '[.[]|split("  ")|{"name": .[1], "digest": .[0]}]' \
+              >${ORG_REPO#*/}_checksums.json
+
+          gh api "repos/${ORG_REPO}/releases" >${ORG_REPO#*/}_releases.json
+
+          jq \
+            --slurp \
+            '
+              .[0] as $sums | .[1][] |= (
+                  . as $releases | foreach $releases as $r (
+                      {};
+                      . + $r + {
+                          "digest": $sums[] | select(.name == "kubernetes-ingress-controller-\($r.name | sub("v";"")).tar.gz").digest
+                      }
+                  )
+              )[1]
+            ' ${ORG_REPO#*/}_checksums.json ${ORG_REPO#*/}_releases.json \
+              >"tmp/${ORG_REPO}/releases.json"
+
+          if [ -n "${VERBOSE:-}" ]; then
+            head -n+25 ${ORG_REPO#*/}_*.json
+          fi
+
+      # - name: Serialize GitHub Data
+      #   if: >-
+      #     inputs.query == '' &&
+      #     inputs.org_repo != 'kong/deck'
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     ORG_REPO: ${{ inputs.org_repo }}
+      #     VERBOSE: ${{ runner.debug }}
+      #   run: |
+      #     [ -n "${VERBOSE:-}" ] && set -x
+
+      #     mkdir -pv "tmp/${ORG_REPO}"
+
+      #     gh api "repos/${ORG_REPO}/releases" >${ORG_REPO#*/}_releases.json
 
       - name: Serialize Cloudsmith Data
         if: inputs.query != ''
