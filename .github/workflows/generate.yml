@@ -41,19 +41,19 @@ jobs:
               distribution:9 AND
               architecture:x86_64
 
-          # - org_repo: kong/kong-mesh
-          #   query: >-
-          #     name:^kong-mesh-linux-amd64$ AND
-          #     repository:^kong-mesh-binaries-release$
+          - org_repo: kong/kong-mesh
+            query: >-
+              name:^kong-mesh-linux-amd64$ AND
+              repository:^kong-mesh-binaries-release$
 
           - org_repo: kong/deck
 
-          # - org_repo: kong/kubernetes-ingress-controller
+          - org_repo: kong/kubernetes-ingress-controller
 
-          # - org_repo: kumahq/kuma
-          #   query: >-
-          #     name:^kuma-linux-amd64$ AND
-          #     repository:^kuma-binaries-release$
+          - org_repo: kumahq/kuma
+            query: >-
+              name:^kuma-linux-amd64$ AND
+              repository:^kuma-binaries-release$
 
     uses: ./.github/workflows/serialize.yml
     with:
