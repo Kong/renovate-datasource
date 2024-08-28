@@ -43,8 +43,18 @@
   },
   "packageRules": [
     {
-      "matchDatasources": ["custom.pages"],
+      "matchDatasources": [
+        "custom.pages"
+      ],
       "groupName": "custom"
+    }
+  ],
+  "hostRules": [
+    {
+      "hostType": "docker",
+      "matchHost": "{{ secrets.REGISTRY1_ENDPOINT }}",
+      "username": "{{ secrets.REGISTRY1_USERNAME }}",
+      "password": "{{ secrets.REGISTRY1_TOKEN }}"
     }
   ]
 }
