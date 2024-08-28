@@ -58,7 +58,7 @@ jobs:
 
           for v in $(gh api "repos/${ORG_REPO}/releases" --jq '.[]|.name'); do
             gh release download "$v" \
-              -R kong/deck \
+              -R "$ORG_REPO" \
               -p checksums.txt \
               -O -;
           done |
@@ -106,7 +106,7 @@ jobs:
           steps.cache-tarballs.outputs.cache-hit != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_REPO: kong/deck
+          ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
@@ -123,7 +123,7 @@ jobs:
         if: inputs.query == '' && inputs.org_repo != 'kong/deck'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ORG_REPO: kong/deck
+          ORG_REPO: ${{ inputs.org_repo }}
           VERBOSE: ${{ runner.debug }}
         run: |
           [ -n "${VERBOSE:-}" ] && set -x
