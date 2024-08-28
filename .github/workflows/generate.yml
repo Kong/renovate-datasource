@@ -73,6 +73,7 @@ jobs:
         with:
           name: artifacts
           pattern: artifacts-*
+          merge-multiple: true
           path: _site
 
       - name: Setup Pages
