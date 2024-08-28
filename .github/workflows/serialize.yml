@@ -100,8 +100,14 @@ jobs:
             ' ${ORG_REPO#*/}_checksums.json ${ORG_REPO#*/}_releases.json \
               >"tmp/${ORG_REPO}/releases.json"
 
+          if [ -n "${VERBOSE:-}" ]; then
+            tail -n+1 ${ORG_REPO#*/}_*.json
+          fi
+
       - name: Serialize GitHub Data
-        if: ${{ inputs.query == '' }}
+        if: >-
+          inputs.query == '' &&
+          inputs.org_repo != 'kong/deck'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_REPO: ${{ inputs.org_repo }}
