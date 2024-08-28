@@ -7,8 +7,8 @@ on:
     - cron: "5 12 * * *"
   push:
     paths:
-      - '**.jsonata'
-      - '.github/workflows/generate.yml'
+      - "**.jsonata"
+      - ".github/workflows/generate.yml"
 
 permissions:
   contents: read
@@ -19,103 +19,47 @@ defaults:
   run:
     shell: bash
 
-env:
-  PAGE_SIZE: 50
-
 jobs:
-  serialize:
-    runs-on: ubuntu-latest
-    name: Serialize Release Data
-    # strategy:
-    #   matrix:
-    #     version:
-    #       -
-    steps:
-      - name: Setup
-        run: npm install --global jfq
+  filter:
+    name: Filter Release Data
+    strategy:
+      matrix:
+        include:
+          - org_repo: kong/kong
+            query: >-
+              name:^kong$ AND
+              repository:^gateway AND
+              distribution:el AND
+              distribution:9 AND
+              architecture:x86_64
 
-      - name: Checkout
-        uses: actions/checkout@v4
+          - org_repo: kong/kong-ee
+            query: >-
+              name:kong-enterprise-edition-fips AND
+              repository:^gateway AND
+              distribution:el AND
+              distribution:9 AND
+              architecture:x86_64
 
-      - name: Kong Mesh
-        env:
-          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
-          CLOUDSMITH_QUERY: >-
-            name:^kong-mesh-linux-amd64$ AND
-            repository:^kong-mesh-binaries-release$
-          VERBOSE: ${{ runner.debug }}
-        run: |
-          [ -n "${VERBOSE:-}" ] && set -x
+          - org_repo: kong/kong-mesh
+            query: >-
+              name:^kong-mesh-linux-amd64$ AND
+              repository:^kong-mesh-binaries-release$
 
-          mkdir -pv tmp/kong/kong-mesh
+          - org_repo: kong/deck
 
-          # --get required for --data* flags to be query params
-          # shellcheck disable=SC2086
-          curl ${_V:-} --get --location --fail \
-            -H 'accept: application/json' \
-            -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
-            --data-urlencode "query=${CLOUDSMITH_QUERY}" \
-            --data 'page=1' \
-            --data "page_size=$PAGE_SIZE" \
-            'https://api.cloudsmith.io/v1/packages/kong/' |
-            jfq -q kong/kong-mesh/query.jsonata >tmp/kong/kong-mesh/releases.json
+          - org_repo: kong/kubernetes-ingress-controller
 
-      - name: Kong Gateway
-        env:
-          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
-          CLOUDSMITH_QUERY: >-
-            name:^kong$ AND
-            distribution:el AND
-            distribution:9 AND
-            architecture:x86_64 AND
-            repository:^gateway
-          VERBOSE: ${{ runner.debug }}
-        run: |
-          [ -n "${VERBOSE:-}" ] && set -x
+          - org_repo: kumahq/kuma
+            query: >-
+              name:^kuma-linux-amd64$ AND
+              repository:^kuma-binaries-release$
 
-          mkdir -pv tmp/kong/kong
-
-          # --get required for --data* flags to be query params
-          # shellcheck disable=SC2086
-          curl ${_V:-} --get --location --fail \
-            -H 'accept: application/json' \
-            -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
-            --data-urlencode "query=${CLOUDSMITH_QUERY}" \
-            --data 'page=1' \
-            --data "page_size=$PAGE_SIZE" \
-            'https://api.cloudsmith.io/v1/packages/kong/' |
-            jfq -q kong/kong/query.jsonata >tmp/kong/kong/releases.json
-
-      - name: Kong Gateway Enterprise
-        env:
-          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
-          CLOUDSMITH_QUERY: >-
-            name:kong-enterprise-edition-fips AND
-            distribution:el AND
-            distribution:9 AND
-            architecture:x86_64 AND
-            repository:^gateway
-          VERBOSE: ${{ runner.debug }}
-        run: |
-          [ -n "${VERBOSE:-}" ] && set -x
-
-          mkdir -pv tmp/kong/kong-ee
-
-          # --get required for --data* flags to be query params
-          # shellcheck disable=SC2086
-          curl ${_V:-} --get --location --fail \
-            -H 'accept: application/json' \
-            -H "X-Api-Key: ${CLOUDSMITH_API_KEY}" \
-            --data-urlencode "query=${CLOUDSMITH_QUERY}" \
-            --data 'page=1' \
-            --data "page_size=$PAGE_SIZE" \
-            'https://api.cloudsmith.io/v1/packages/kong/' |
-            jfq -q kong/kong-ee/query.jsonata >tmp/kong/kong-ee/releases.json
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          path: tmp
+    uses: ./.github/workflows/serialize.yml
+    with:
+      org_repo: ${{ matrix.org_repo }}
+      query: ${{ matrix.query }}
+    secrets: inherit
 
   deploy:
     name: Deploy to GitHub Pages
@@ -123,7 +67,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: serialize
+    needs: filter
     steps:
       - uses: actions/download-artifact@v4
         with:
