@@ -6,7 +6,7 @@
       "newDigest": assets[$contains(name, "linux_amd64")].digest,
       "releaseTimestamp": published_at,
       "sourceUrl": assets[$contains(name, "linux_amd64")].browser_download_url,
-      "version": $replace(name, /^v|\./, "")
+      "version": $replace(name, /^v/, "")
     },
     function($l, $r) {
       $l.version < $r.version

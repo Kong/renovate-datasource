@@ -6,7 +6,7 @@
       "newDigest": digest,
       "releaseTimestamp": published_at,
       "sourceUrl": "https://github.com/Kong/kubernetes-ingress-controller/archive/refs/tags/" & tag_name & ".tar.gz",
-      "version": $replace(name, /^v|\./, "")
+      "version": $replace(name, /^v/, "")
     },
     function($l, $r) {
       $l.version < $r.version
