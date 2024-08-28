@@ -3,9 +3,10 @@
     $.{
       "changelogUrl": "https://github.com/Kong/deck/blob/main/CHANGELOG.md#" & $replace(name, /^v|\./, ""),
       "digest": assets[$contains(name, "linux_amd64")].digest,
+      "newDigest": assets[$contains(name, "linux_amd64")].digest,
       "releaseTimestamp": published_at,
       "sourceUrl": assets[$contains(name, "linux_amd64")].browser_download_url,
-      "version": name,
+      "version": $replace(name, /^v|\./, "")
     },
     function($l, $r) {
       $l.version < $r.version

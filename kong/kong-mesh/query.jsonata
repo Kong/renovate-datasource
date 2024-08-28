@@ -1,9 +1,8 @@
 {
   "releases": $sort(
     $.{
-      "changelogUrl": "https://docs.konghq.com/mesh/changelog" & "#" & $replace(version, /\./, ""),
+      "changelogUrl": "https://docs.konghq.com/mesh/changelog#" & $replace(version, /\./, ""),
       "digest": checksum_sha256,
-      "isStable": true,
       "newDigest": checksum_sha256,
       "releaseTimestamp": uploaded_at,
       "sourceUrl": cdn_url,
