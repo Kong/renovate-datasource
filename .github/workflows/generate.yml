@@ -25,21 +25,21 @@ jobs:
     strategy:
       matrix:
         include:
-          # - org_repo: kong/kong
-          #   query: >-
-          #     name:^kong$ AND
-          #     repository:^gateway AND
-          #     distribution:el AND
-          #     distribution:9 AND
-          #     architecture:x86_64
+          - org_repo: kong/kong
+            query: >-
+              name:^kong$ AND
+              repository:^gateway AND
+              distribution:el AND
+              distribution:9 AND
+              architecture:x86_64
 
-          # - org_repo: kong/kong-ee
-          #   query: >-
-          #     name:kong-enterprise-edition-fips AND
-          #     repository:^gateway AND
-          #     distribution:el AND
-          #     distribution:9 AND
-          #     architecture:x86_64
+          - org_repo: kong/kong-ee
+            query: >-
+              name:kong-enterprise-edition-fips AND
+              repository:^gateway AND
+              distribution:el AND
+              distribution:9 AND
+              architecture:x86_64
 
           # - org_repo: kong/kong-mesh
           #   query: >-
