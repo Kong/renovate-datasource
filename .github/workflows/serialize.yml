@@ -36,8 +36,13 @@ jobs:
       - name: Prereq
         id: prereq
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_REPO: ${{ inputs.org_repo }}
         run: |
+          echo "cache_key=$(
+            gh api repos/${ORG_REPO} | md5sum
+          )" >> "$GITHUB_OUTPUT"
+
           echo "repo=${ORG_REPO#*/}" >> "$GITHUB_OUTPUT"
 
       - name: Serialize GitHub Data (deck)
@@ -86,6 +91,34 @@ jobs:
             head -n+25 ${ORG_REPO#*/}_*.json
           fi
 
+      - name: Cache Source Tarballs
+        id: cache-tarballs
+        if: inputs.query == '' && inputs.org_repo != 'kong/deck'
+        uses: actions/cache@v4
+        with:
+          path: .
+          key: ${{ steps.prereq.outputs.cache_key }}-tarballs
+
+      - name: Fetch GitHub Data (source)
+        if: >-
+          inputs.query == '' &&
+          inputs.org_repo != 'kong/deck' &&
+          steps.cache-tarballs.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG_REPO: kong/deck
+          VERBOSE: ${{ runner.debug }}
+        run: |
+          [ -n "${VERBOSE:-}" ] && set -x
+
+          for v in $(gh api "repos/${ORG_REPO}/releases" --jq '.[]|.name'); do
+            gh release download \
+              "$v" \
+              -R "$ORG_REPO" \
+              --archive tar.gz \
+              --skip-existing;
+          done
+
       - name: Serialize GitHub Data (source)
         if: inputs.query == '' && inputs.org_repo != 'kong/deck'
         env:
@@ -97,11 +130,7 @@ jobs:
 
           mkdir -pv "tmp/${ORG_REPO}"
 
-          for v in $(gh api "repos/${ORG_REPO}/releases" --jq '.[]|.name'); do
-            gh release download "$v" -R "$ORG_REPO" --archive tar.gz;
-          done
-
-          sha256 ${ORG_REPO#*/}-*.tar.gz |
+          sha256sum ${ORG_REPO#*/}-*.tar.gz |
             jq -R | \
             jq -s '[.[]|split("  ")|{"name": .[1], "digest": .[0]}]' \
               >${ORG_REPO#*/}_checksums.json
