@@ -39,9 +39,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_REPO: ${{ inputs.org_repo }}
         run: |
-          echo "cache_key=$(
-            gh api repos/${ORG_REPO} | md5sum | cut -d' ' -f1
-          )" >> "$GITHUB_OUTPUT"
+          [ -n "${VERBOSE:-}" ] && set -x
+
+          cache_key="$(gh api repos/${ORG_REPO} | md5sum | cut -d' ' -f1)"
+          echo "cache_key=${cache_key}" >> "$GITHUB_OUTPUT"
 
           echo "repo=${ORG_REPO#*/}" >> "$GITHUB_OUTPUT"
 
@@ -84,12 +85,10 @@ jobs:
                 )
               )
             )[1]
-            ' ${ORG_REPO#*/}_checksums.json ${ORG_REPO#*/}_releases.json \
-              >"tmp/${ORG_REPO}/releases.json"
-
-          if [ -n "${VERBOSE:-}" ]; then
-            head -n+25 ${ORG_REPO#*/}_*.json
-          fi
+            ' ${ORG_REPO#*/}_checksums.json ${ORG_REPO#*/}_releases.json |
+              jfq \
+                -q "${ORG_REPO}/query.jsonata" \
+                >"tmp/${ORG_REPO}/releases.json"
 
       - name: Cache Source Tarballs
         id: cache-tarballs
@@ -150,27 +149,10 @@ jobs:
                     )
                 )
               )[1]
-            ' ${ORG_REPO#*/}_checksums.json ${ORG_REPO#*/}_releases.json \
-              >"tmp/${ORG_REPO}/releases.json"
-
-          if [ -n "${VERBOSE:-}" ]; then
-            head -n+25 ${ORG_REPO#*/}_*.json
-          fi
-
-      # - name: Serialize GitHub Data
-      #   if: >-
-      #     inputs.query == '' &&
-      #     inputs.org_repo != 'kong/deck'
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     ORG_REPO: ${{ inputs.org_repo }}
-      #     VERBOSE: ${{ runner.debug }}
-      #   run: |
-      #     [ -n "${VERBOSE:-}" ] && set -x
-
-      #     mkdir -pv "tmp/${ORG_REPO}"
-
-      #     gh api "repos/${ORG_REPO}/releases" >${ORG_REPO#*/}_releases.json
+            ' ${ORG_REPO#*/}_checksums.json ${ORG_REPO#*/}_releases.json |
+              jfq \
+                -q "${ORG_REPO}/query.jsonata" \
+                >"tmp/${ORG_REPO}/releases.json"
 
       - name: Serialize Cloudsmith Data
         if: inputs.query != ''
