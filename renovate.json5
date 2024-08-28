@@ -3,7 +3,8 @@
   // "extends": ["config:best-practices"],
   "dependencyDashboard": true,
   "enabledManagers": [
-    "custom.regex" // ,"dockerfile"
+    "custom.regex",
+    "dockerfile"
   ],
   "customManagers": [
     {
@@ -12,12 +13,23 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "resources:\\n- url: (?<depName>https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/\\d/x86_64/kong-)(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el"
+        "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el"
       ],
-      "matchStringsStrategy": "recursive",
+      "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
-      "packageNameTemplate": "kong/kong",
-      "autoReplaceStringTemplate": "resources:\\n- url: {{{depName}}}{{{newValue}}}.el"
+      "depNameTemplate": "kong/kong"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "hardening_manifest.yaml"
+      ],
+      "matchStrings": [
+        "kong-enterprise-edition-(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+)\\.el"
+      ],
+      "matchStringsStrategy": "combination",
+      "datasourceTemplate": "custom.pages",
+      "depNameTemplate": "kong/kong-ee"
     }
   ],
   "customDatasources": {
