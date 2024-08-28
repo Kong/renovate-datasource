@@ -1,0 +1,16 @@
+{
+  "releases": $sort(
+    $.{
+      "changelogUrl": "https://github.com/Kong/kubernetes-ingress-controller/blob/main/CHANGELOG.md#" & $replace(name, /^v|\./, ""),
+      "newDigest": digest,
+      "digest": digest,
+      "releaseTimestamp": published_at,
+      "sourceUrl": "https://github.com/Kong/kubernetes-ingress-controller/archive/refs/tags/" & tag_name & ".tar.gz",
+      "version": $replace(name, /^v|\./, "")
+    },
+    function($l, $r) {
+      $l.version < $r.version
+    }
+  ),
+  "homepage": "https://docs.konghq.com/kubernetes-ingress-controller/latest/"
+}
