@@ -3,8 +3,8 @@
   // "extends": ["config:best-practices"],
   "dependencyDashboard": true,
   "enabledManagers": [
-    "custom.regex",
-    "dockerfile"
+    "custom.regex"
+    // ,"dockerfile"
   ],
   "customManagers": [
     {
@@ -13,24 +13,52 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "kong-(?<currentValue>\\d+\\.\\d+\\.\\d+)\\.el"
+        // "name: kong/kong/kong.+",
+        "kong-(?<currentValue>\\d+?\\.\\d+?\\.\\d+?)\\.el"
       ],
-      "matchStringsStrategy": "combination",
+      "matchStringsStrategy": "recursive",
       "datasourceTemplate": "custom.pages",
       "depNameTemplate": "kong/kong"
-    },
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "hardening_manifest.yaml"
-      ],
-      "matchStrings": [
-        "kong-enterprise-edition-(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+)\\.el"
-      ],
-      "matchStringsStrategy": "combination",
-      "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong-ee"
     }
+    // ,{
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     "- url: [^\\n]+?kong-enterprise-edition-fips-(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+)\\.el.+?\\.rpm\n  filename: [^\\n]+?\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
+    //     "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+)(\\s|\"|'|$)",
+    //     "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+)(\\s|\"|'|$)+"
+    //   ],
+    //   // "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong-ee",
+    //   "versioningTemplate": "loose"
+    // },
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     "- url: [^\\n]+?\\d+\\.\\d+\\.\\d+/deck_(?<currentValue>\\d+\\.\\d+\\.\\d+)_linux_amd64\\.tar\\.gz\n  filename: [^\\n]+?\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
+    //   ],
+    //   // "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/deck"
+    // },
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     "- filename: [^\\n]+?\n  url: https://packages\\.konghq\\.com/[^\\n]+?/(?<currentValue>\\d+\\.\\d+\\.\\d+)/kong-mesh-\\d+\\.\\d+\\.\\d+-linux-amd64\\.tar\\.gz\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
+    //   ],
+    //   // "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong-mesh"
+    // }
   ],
   "customDatasources": {
     "pages": {
@@ -48,13 +76,13 @@
       ],
       "groupName": "custom"
     }
-  ],
-  "hostRules": [
-    {
-      "hostType": "docker",
-      "matchHost": "{{ secrets.REGISTRY1_ENDPOINT }}",
-      "username": "{{ secrets.REGISTRY1_USERNAME }}",
-      "password": "{{ secrets.REGISTRY1_TOKEN }}"
-    }
   ]
+  // ,"hostRules": [
+  //   {
+  //     "hostType": "docker",
+  //     "matchHost": "{{ secrets.REGISTRY1_ENDPOINT }}",
+  //     "username": "{{ secrets.REGISTRY1_USERNAME }}",
+  //     "password": "{{ secrets.REGISTRY1_TOKEN }}"
+  //   }
+  // ]
 }
