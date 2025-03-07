@@ -25,6 +25,9 @@ env:
   PAGE_SIZE: 50
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+
   serialize:
     runs-on: ubuntu-latest
     name: Serialize Release Data
@@ -35,8 +38,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prereq
-        id: prereq
+      - name: Prerequisite
+        id: prerequisite
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -98,7 +101,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .
-          key: ${{ steps.prereq.outputs.cache_key }}-tarballs
+          key: ${{ steps.prerequisite.outputs.cache_key }}-tarballs
 
       - name: Fetch GitHub Data (source)
         if: >-
@@ -179,6 +182,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: artifacts-${{ steps.prereq.outputs.repo }}
+          name: artifacts-${{ steps.prerequisite.outputs.repo }}
           path: tmp
           retention-days: 1
