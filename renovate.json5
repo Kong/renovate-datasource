@@ -95,6 +95,7 @@
   "baseBranches": [
     "feat/pkgs"
   ],
+  "useBaseBranchConfig": "merge",
   "enabledManagers": [
     "custom.regex"
     // ,"dockerfile"
