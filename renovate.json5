@@ -124,7 +124,7 @@
       // "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
       "packageNameTemplate": "kong/kong-ee",
       // "matchStringsStrategy": "recursive",
-      "matchStringsStrategy": "combination",
+      // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
     },
