@@ -116,7 +116,7 @@
       // "depNameTemplate": "kong/kong-ee",
       "versioningTemplate": "loose",
       "autoReplaceStringTemplate": "- url: https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/9/x86_64/kong-enterprise-edition-fips-{{{newValue}}}.el9.x86_64.rpm\n  filename: kong-enterprise-edition.noarch.rpm\n  validation:\n    type: sha256\n    value: {{{newDigest}}}",
-    }
+    },
     // {
     //   "customType": "regex",
     //   "fileMatch": [
@@ -169,6 +169,19 @@
     //   "datasourceTemplate": "custom.pages",
     //   "depNameTemplate": "kong/kong-mesh"
     // }
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "hardening_manifest.yaml"
+      ],
+      "matchStrings": [
+        // "name: kong/kong/kong.+",
+        "kong-(?<currentValue>\\d+?\\.\\d+?\\.\\d+?)\\.el"
+      ],
+      "matchStringsStrategy": "recursive",
+      "datasourceTemplate": "custom.pages",
+      "depNameTemplate": "kong/kong"
+    },
   ],
   "customDatasources": {
     "pages": {
@@ -180,13 +193,13 @@
     }
   },
   "packageRules": [
-    {
-      "matchManagers": [
-        "github-actions",
-        "dockerfile",
-      ],
-      "enabled": false
-    }
+    // {
+    //   "matchManagers": [
+    //     "github-actions",
+    //     "dockerfile",
+    //   ],
+    //   "enabled": false
+    // }
     // {
     //   "matchDatasources": [
     //     "custom.pages"
