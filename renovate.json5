@@ -169,19 +169,19 @@
     //   "datasourceTemplate": "custom.pages",
     //   "depNameTemplate": "kong/kong-mesh"
     // }
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "hardening_manifest.yaml"
-      ],
-      "matchStrings": [
-        // "name: kong/kong/kong.+",
-        "kong-(?<currentValue>\\d+?\\.\\d+?\\.\\d+?)\\.el"
-      ],
-      "matchStringsStrategy": "recursive",
-      "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong"
-    },
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     // "name: kong/kong/kong.+",
+    //     "kong-(?<currentValue>\\d+?\\.\\d+?\\.\\d+?)\\.el"
+    //   ],
+    //   "matchStringsStrategy": "recursive",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong"
+    // },
   ],
   "customDatasources": {
     "pages": {
