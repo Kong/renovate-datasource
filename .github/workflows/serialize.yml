@@ -25,9 +25,6 @@ env:
   PAGE_SIZE: 50
 
 jobs:
-  matrix:
-    runs-on: ubuntu-latest
-
   serialize:
     runs-on: ubuntu-latest
     name: Serialize Release Data
