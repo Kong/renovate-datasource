@@ -92,6 +92,9 @@
       newLogLevel: 'trace',
     },
   ],
+  "baseBranches": [
+    "feat/pkgs"
+  ],
   "enabledManagers": [
     "custom.regex"
     // ,"dockerfile"
