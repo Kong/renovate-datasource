@@ -107,17 +107,44 @@
         "kong/kong-ee/hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<el>\\d+)/x86_64/(?<depName>kong-enterprise-edition|kong)(?:-fips)*-(?<currentValue>[0-9\\.]{5,}).el\\d+.x86_64.rpm\n  filename: (?<filename>.+)\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
-        "tags:\n- (?<currentValue>[0-9\\.]{5,})",
+        // tags:
+        // - 3.7.1.1
+        // - latest
+        //
+        // - url: https://packages.konghq.com/public/gateway-37/rpm/el/9/x86_64/kong-enterprise-edition-fips-3.7.1.1.el9.x86_64.rpm
+        //   filename: kong-enterprise-edition.noarch.rpm
+        //   validation:
+        //     type: sha256
+        //     value: f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd
+        //
+        //   org.opencontainers.image.version: 3.7.1.1
+        "tags:\\s- (?<currentValue>[0-9\\.]{5,})",
         "org.opencontainers.image.version: (?<currentValue>[0-9\\.]{5,})",
       ],
-      "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
+      // "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
       "packageNameTemplate": "kong/kong-ee",
+      // "matchStringsStrategy": "recursive",
       "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
-      "autoReplaceStringTemplate": "- url: https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/{{{el}}}/x86_64/kong-enterprise-edition-fips-{{{newValue}}}.el{{{el}}}.x86_64.rpm\n  filename: {{{filename}}}\n  validation:\n    type: sha256\n    value: {{{newDigest}}}",
     },
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "kong/kong-ee/hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     "- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<el>\\d+)/x86_64/(?<depName>kong-enterprise-edition|kong)(?:-fips)*-(?<currentValue>[0-9\\.]{5,}).el\\d+.x86_64.rpm\n  filename: (?<filename>.+)\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
+    //     "tags:\n- (?<currentValue>[0-9\\.]{5,})",
+    //     "org.opencontainers.image.version: (?<currentValue>[0-9\\.]{5,})",
+    //   ],
+    //   "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
+    //   "packageNameTemplate": "kong/kong-ee",
+    //   "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
+    //   "autoReplaceStringTemplate": "- url: https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/{{{el}}}/x86_64/kong-enterprise-edition-fips-{{{newValue}}}.el{{{el}}}.x86_64.rpm\n  filename: {{{filename}}}\n  validation:\n    type: sha256\n    value: {{{newDigest}}}",
+    // },
     // {
     //   "customType": "regex",
     //   "fileMatch": [
@@ -146,18 +173,22 @@
     //   "depNameTemplate": "kong/kong-ee",
     //   "versioningTemplate": "loose"
     // },
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "hardening_manifest.yaml"
-      ],
-      "matchStrings": [
-        "- url: https://github.com/kong/deck/releases/download/v(?<currentValue>[0-9\\.]{5,})/deck_(?:[0-9\\.]{5,})_linux_amd64.tar.gz\n  filename: deck.tar.gz\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
-      ],
-      // "matchStringsStrategy": "combination",
-      "datasourceTemplate": "custom.pages",
-      "packageNameTemplate": "kong/deck"
-    },
+
+
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     "- url: https://github.com/kong/deck/releases/download/v(?<currentValue>[0-9\\.]{5,})/deck_(?:[0-9\\.]{5,})_linux_amd64.tar.gz\n  filename: deck.tar.gz\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
+    //   ],
+    //   // "matchStringsStrategy": "combination",
+    //   "datasourceTemplate": "custom.pages",
+    //   "packageNameTemplate": "kong/deck"
+    // },
+
+
     // {
     //   "customType": "regex",
     //   "fileMatch": [
