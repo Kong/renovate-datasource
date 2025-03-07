@@ -18,7 +18,7 @@ labels:
   org.opencontainers.image.licenses: Apache v2.0
   org.opencontainers.image.url: https://docs.konghq.com/enterprise/
   org.opencontainers.image.vendor: Kong
-  org.opencontainers.image.version: 3.7.1.1
+  org.opencontainers.image.version: 3.9.0.1
   mil.dso.ironbank.image.keywords: api,gateway,proxy
   mil.dso.ironbank.image.type: commercial
   mil.dso.ironbank.product.name: KongEE
