@@ -29,11 +29,11 @@ resources:
   validation:
     type: sha256
     value: f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd
-- url: https://github.com/kong/deck/releases/download/v1.38.1/deck_1.38.1_linux_amd64.tar.gz
+- url: https://github.com/kong/deck/releases/download/v1.45.0/deck_1.45.0_linux_amd64.tar.gz
   filename: deck.tar.gz
   validation:
     type: sha256
-    value: 760bd28ed7e09f18cba7869740ec91695978ba7b8438e0ec61f6a79dc4bd188f
+    value: 155b7ef6d0bcd10c5d557514fa57e8276c9ecc5b5d0367bc936ebf4d8479f3b3
 
 maintainers:
 - name: Ahmed Koshok
