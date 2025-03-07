@@ -111,7 +111,7 @@
       ],
       // "depNameTemplate": "el/kong-enterprise-edition-fips",
       "packageNameTemplate": "kong/kong-ee",
-      "matchStringsStrategy": "combination",
+      // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       // "depNameTemplate": "kong/kong-ee",
       "versioningTemplate": "loose",
