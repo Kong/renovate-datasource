@@ -107,7 +107,7 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/9/x86_64/kong-enterprise-edition-fips-(?<currentValue>[0-9\\.]{5,}).el9.x86_64.rpm\n  filename: kong-enterprise-edition.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd)",
+        "- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/9/x86_64/kong-enterprise-edition-fips-(?<currentValue>[0-9\\.]{5,}).el9.x86_64.rpm\n  filename: kong-enterprise-edition.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
       ],
       "depNameTemplate": "el/9/kong-enterprise-edition-fips",
       "packageNameTemplate": "kong/kong-ee",
