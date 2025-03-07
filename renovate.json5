@@ -109,8 +109,8 @@
       "matchStrings": [
         "- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/9/x86_64/kong-enterprise-edition-fips-(?<currentValue>[0-9\\.]{5,}).el9.x86_64.rpm\n  filename: kong-enterprise-edition.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
       ],
-      "depNameTemplate": "el/9/kong-enterprise-edition-fips",
-      "packageNameTemplate": "kong/kong-ee",
+      "packageNameTemplate": "el/9/kong-enterprise-edition-fips",
+      "depNameTemplate": "kong/kong-ee",
       // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       // "depNameTemplate": "kong/kong-ee",
@@ -145,18 +145,18 @@
     //   "depNameTemplate": "kong/kong-ee",
     //   "versioningTemplate": "loose"
     // },
-    // {
-    //   "customType": "regex",
-    //   "fileMatch": [
-    //     "hardening_manifest.yaml"
-    //   ],
-    //   "matchStrings": [
-    //     "- url: [^\\n]+?\\d+\\.\\d+\\.\\d+/deck_(?<currentValue>\\d+\\.\\d+\\.\\d+)_linux_amd64\\.tar\\.gz\n  filename: [^\\n]+?\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
-    //   ],
-    //   // "matchStringsStrategy": "combination",
-    //   "datasourceTemplate": "custom.pages",
-    //   "depNameTemplate": "kong/deck"
-    // },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "hardening_manifest.yaml"
+      ],
+      "matchStrings": [
+        "- url: [^\\n]+?\\d+\\.\\d+\\.\\d+/deck_(?<currentValue>\\d+\\.\\d+\\.\\d+)_linux_amd64\\.tar\\.gz\n  filename: [^\\n]+?\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
+      ],
+      // "matchStringsStrategy": "combination",
+      "datasourceTemplate": "custom.pages",
+      "depNameTemplate": "kong/deck"
+    },
     // {
     //   "customType": "regex",
     //   "fileMatch": [
