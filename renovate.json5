@@ -2,6 +2,100 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   // "extends": ["config:best-practices"],
   "dependencyDashboard": true,
+  logLevelRemap: [
+    //
+    // DIY errors
+    //
+    // {
+    //   matchMessage: '/^lookupUpdates error/',
+    //   newLogLevel: 'debug',
+    // },
+    {
+      matchMessage: '/^lookupUpdates error/',
+      newLogLevel: 'error',
+    },
+    {
+      matchMessage: '/^Dependency .+ has unsupported/unversioned value/',
+      newLogLevel: 'warn',
+    },
+    {
+      matchMessage: '/^lookupUpdates/',
+      newLogLevel: 'debug',
+    },
+    // "Value is not updated" or "Digest is not updated" indicates that the
+    // custom manager did a replacement, but can't find the new digest/value in
+    // the file afterwards
+    {
+      matchMessage: '/ is not updated /',
+      newLogLevel: 'error',
+    },
+    {
+      matchMessage: '/^Config validation errors found/',
+      newLogLevel: 'error',
+    },
+
+    // custom manager output (normally trace)
+    {
+      matchMessage: '/HTTP request/',
+      newLogLevel: 'debug',
+    },
+    {
+      matchMessage: '/Skipping bump because newValue is the same/',
+      newLogLevel: 'debug',
+    },
+    {
+      matchMessage: '/^Found no satisfying versions with/',
+      newLogLevel: 'warn',
+    },
+    {
+      matchMessage: '/^Custom manager fetcher/',
+      newLogLevel: 'debug',
+    },
+    {
+      matchMessage: '/^Error while evaluating JSONata expression/',
+      newLogLevel: 'debug',
+    },
+    {
+      matchMessage: '/^Response that has failed validation/',
+      newLogLevel: 'debug',
+    },
+    {
+      matchMessage: '/custom datasource/',
+      newLogLevel: 'debug',
+    },
+    {
+      matchMessage: '/^Error while evaluating/',
+      newLogLevel: 'debug',
+    },
+    // {
+    //   matchMessage: '/^Response has failed validation/',
+    //   newLogLevel: 'debug',
+    // },
+    {
+      matchMessage: '/^Response that has failed validation/',
+      newLogLevel: 'debug',
+    },
+
+    // PR creation
+    {
+      matchMessage: '/^prTitle: /',
+      newLogLevel: 'debug',
+    },
+
+    // shhhhhh
+    {
+      matchMessage: '/^Branch lists/',
+      newLogLevel: 'trace',
+    },
+    {
+      matchMessage: '/^branch\\.isModified\\(\\) = true/',
+      newLogLevel: 'trace',
+    },
+  ],
+  "baseBranches": [
+    "feat/pkgs"
+  ],
+  "useBaseBranchConfig": "merge",
   "enabledManagers": [
     "custom.regex"
     // ,"dockerfile"
@@ -13,14 +107,30 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        // "name: kong/kong/kong.+",
-        "kong-(?<currentValue>\\d+?\\.\\d+?\\.\\d+?)\\.el"
+        "- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/9/x86_64/kong-enterprise-edition-fips-(?<currentValue>[0-9\\.]{5,}).el9.x86_64.rpm\n  filename: kong-enterprise-edition.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd)",
       ],
-      "matchStringsStrategy": "recursive",
+      // "depNameTemplate": "el/kong-enterprise-edition-fips",
+      "packageNameTemplate": "kong/kong-ee",
+      "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/kong"
-    }
-    // ,{
+      // "depNameTemplate": "kong/kong-ee",
+      "versioningTemplate": "loose",
+      "autoReplaceStringTemplate": "- url: https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/9/x86_64/kong-enterprise-edition-fips-{{{newValue}}}.el9.x86_64.rpm\n  filename: kong-enterprise-edition.noarch.rpm\n  validation:\n    type: sha256\n    value: {{{newDigest}}}",
+    },
+    // {
+    //   "customType": "regex",
+    //   "fileMatch": [
+    //     "hardening_manifest.yaml"
+    //   ],
+    //   "matchStrings": [
+    //     // "name: kong/kong/kong.+",
+    //     "kong-(?<currentValue>\\d+?\\.\\d+?\\.\\d+?)\\.el"
+    //   ],
+    //   "matchStringsStrategy": "recursive",
+    //   "datasourceTemplate": "custom.pages",
+    //   "depNameTemplate": "kong/kong"
+    // },
+    // {
     //   "customType": "regex",
     //   "fileMatch": [
     //     "hardening_manifest.yaml"
@@ -30,7 +140,7 @@
     //     "org\\.opencontainers\\.image\\.version:\\s+(\\s|\"|')?(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+)(\\s|\"|'|$)",
     //     "tags:\\s+-(\\s|\"|')+(?<currentValue>\\d+\\.\\d+\\.\\d+\\.\\d+)(\\s|\"|'|$)+"
     //   ],
-    //   // "matchStringsStrategy": "combination",
+    //   "matchStringsStrategy": "combination",
     //   "datasourceTemplate": "custom.pages",
     //   "depNameTemplate": "kong/kong-ee",
     //   "versioningTemplate": "loose"
@@ -59,6 +169,19 @@
     //   "datasourceTemplate": "custom.pages",
     //   "depNameTemplate": "kong/kong-mesh"
     // }
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "hardening_manifest.yaml"
+      ],
+      "matchStrings": [
+        // "name: kong/kong/kong.+",
+        "kong-(?<currentValue>\\d+?\\.\\d+?\\.\\d+?)\\.el"
+      ],
+      "matchStringsStrategy": "recursive",
+      "datasourceTemplate": "custom.pages",
+      "depNameTemplate": "kong/kong"
+    },
   ],
   "customDatasources": {
     "pages": {
@@ -70,12 +193,19 @@
     }
   },
   "packageRules": [
-    {
-      "matchDatasources": [
-        "custom.pages"
-      ],
-      "groupName": "custom"
-    }
+    // {
+    //   "matchManagers": [
+    //     "github-actions",
+    //     "dockerfile",
+    //   ],
+    //   "enabled": false
+    // }
+    // {
+    //   "matchDatasources": [
+    //     "custom.pages"
+    //   ],
+    //   "groupName": "custom"
+    // }
   ]
   // ,"hostRules": [
   //   {
