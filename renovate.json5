@@ -109,8 +109,8 @@
       "matchStrings": [
         "- url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/9/x86_64/kong-enterprise-edition-fips-(?<currentValue>[0-9\\.]{5,}).el9.x86_64.rpm\n  filename: kong-enterprise-edition.noarch.rpm\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
       ],
-      "packageNameTemplate": "el/9/kong-enterprise-edition-fips",
-      "depNameTemplate": "kong/kong-ee",
+      "depNameTemplate": "el/9/kong-enterprise-edition-fips",
+      "packageNameTemplate": "kong/kong-ee",
       // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       // "depNameTemplate": "kong/kong-ee",
@@ -151,11 +151,11 @@
         "hardening_manifest.yaml"
       ],
       "matchStrings": [
-        "- url: [^\\n]+?\\d+\\.\\d+\\.\\d+/deck_(?<currentValue>\\d+\\.\\d+\\.\\d+)_linux_amd64\\.tar\\.gz\n  filename: [^\\n]+?\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
+        "- url: https://github.com/kong/deck/releases/download/v(?<currentValue>[0-9\\.]{5,})/deck_(?:[0-9\\.]{5,})_linux_amd64.tar.gz\n  filename: deck.tar.gz\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
       ],
       // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
-      "depNameTemplate": "kong/deck"
+      "packageNameTemplate": "kong/deck"
     },
     // {
     //   "customType": "regex",
