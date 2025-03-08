@@ -166,6 +166,7 @@
       "matchStrings": [
         "- url: https://github.com/kong/deck/releases/download/v(?<currentValue>[0-9\\.]{5,})/deck_(?:[0-9\\.]{5,})_linux_amd64.tar.gz\n  filename: deck.tar.gz\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
       ],
+      "depNameTemplate": "kong-ee/deck", // only in EE hardening manifest
       "datasourceTemplate": "custom.pages",
       "packageNameTemplate": "kong/deck"
     },
