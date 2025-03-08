@@ -122,10 +122,7 @@
         "(?<depName>org.opencontainers.image.version): (?<currentValue>[0-9\\.]{7})",
       ],
       "depNameTemplate": "kong-ee/{{{depName}}}",
-      // "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
       "packageNameTemplate": "kong/kong-ee",
-      // "matchStringsStrategy": "recursive",
-      // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
     },
@@ -149,10 +146,7 @@
         "url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<el>\\d+)/x86_64/kong-enterprise-edition-fips-(?<currentValue>[0-9\\.]{7}).el\\d+.x86_64.rpm\n  filename: (?<filename>.+)\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
       ],
       "depNameTemplate": "kong-ee/el/{{el}}",
-      // "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
       "packageNameTemplate": "kong/kong-ee",
-      // "matchStringsStrategy": "recursive",
-      // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
       "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/{{{el}}}/x86_64/kong-enterprise-edition-fips-{{{newValue}}}.el{{{el}}}.x86_64.rpm\n  filename: {{{filename}}}\n  validation:\n    type: sha256\n    value: {{{newDigest}}}",
@@ -204,18 +198,17 @@
     // },
 
 
-    // {
-    //   "customType": "regex",
-    //   "fileMatch": [
-    //     "hardening_manifest.yaml"
-    //   ],
-    //   "matchStrings": [
-    //     "- url: https://github.com/kong/deck/releases/download/v(?<currentValue>[0-9\\.]{5,})/deck_(?:[0-9\\.]{5,})_linux_amd64.tar.gz\n  filename: deck.tar.gz\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
-    //   ],
-    //   // "matchStringsStrategy": "combination",
-    //   "datasourceTemplate": "custom.pages",
-    //   "packageNameTemplate": "kong/deck"
-    // },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "hardening_manifest.yaml"
+      ],
+      "matchStrings": [
+        "- url: https://github.com/kong/deck/releases/download/v(?<currentValue>[0-9\\.]{5,})/deck_(?:[0-9\\.]{5,})_linux_amd64.tar.gz\n  filename: deck.tar.gz\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})"
+      ],
+      "datasourceTemplate": "custom.pages",
+      "packageNameTemplate": "kong/deck"
+    },
 
 
     // {
@@ -248,9 +241,6 @@
     "pages": {
       "defaultRegistryUrlTemplate": "https://kong.github.io/renovate-datasource/{{packageName}}/releases.json",
       "format": "json",
-      "transformTemplates": [
-        // "{\"releases\": $.releases.{\"version\": sourceUrl}}"
-      ]
     }
   },
   "packageRules": [
@@ -269,10 +259,16 @@
     // }
     {
       "matchDepNames": [
-        "/^kong-ee/"
+        "/^kong-ee\\//"
       ],
       "groupName": "Kong Enterprise"
-    }
+    },
+    {
+      "matchDepNames": [
+        "/^kong\\//"
+      ],
+      "groupName": "Kong Enterprise"
+    },
   ]
   // ,"hostRules": [
   //   {
