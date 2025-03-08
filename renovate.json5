@@ -119,7 +119,7 @@
         //
         //   org.opencontainers.image.version: 3.7.1.1
         "(?<depName>tags):\\s- (?<currentValue>[0-9\\.]{7})",
-        "(?<depName>org.opencontainers.image.version): (?<currentValue>[0-9\\.]{7})",
+        "(?<depName>image.version): (?<currentValue>[0-9\\.]{7})",
       ],
       "depNameTemplate": "kong-ee/{{{depName}}}",
       "packageNameTemplate": "kong/kong-ee",
