@@ -179,13 +179,13 @@
   "packageRules": [
     {
       "matchDepNames": [
-        "/^kong-ee\//"
+        "/^kong-ee\\//"
       ],
       "groupName": "Kong Enterprise"
     },
     {
       "matchDepNames": [
-        "/^kong\//"
+        "/^kong\\//"
       ],
       "groupName": "Kong Enterprise"
     },
