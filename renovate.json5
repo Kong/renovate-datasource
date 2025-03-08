@@ -92,10 +92,10 @@
       newLogLevel: 'trace',
     },
   ],
-  "baseBranches": [
-    "feat/pkgs"
-  ],
-  "useBaseBranchConfig": "merge",
+  // "baseBranches": [
+  //   "feat/pkgs"
+  // ],
+  // "useBaseBranchConfig": "merge",
   "enabledManagers": [
     "custom.regex"
     // ,"dockerfile"
