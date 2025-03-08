@@ -187,7 +187,7 @@
       "matchDepNames": [
         "/^kong\\//"
       ],
-      "groupName": "Kong Enterprise"
+      "groupName": "Kong Gateway"
     },
   ]
   // ,"hostRules": [
