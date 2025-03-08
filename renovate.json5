@@ -118,15 +118,44 @@
         //     value: f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd
         //
         //   org.opencontainers.image.version: 3.7.1.1
-        "tags:\\s- (?<currentValue>[0-9\\.]{5,})",
-        "org.opencontainers.image.version: (?<currentValue>[0-9\\.]{5,})",
+        "(?<depName>tags):\\s- (?<currentValue>[0-9\\.]{7})",
+        "(?<depName>org.opencontainers.image.version): (?<currentValue>[0-9\\.]{7})",
       ],
+      "depNameTemplate": "kong-ee/{{{depName}}}",
       // "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
       "packageNameTemplate": "kong/kong-ee",
       // "matchStringsStrategy": "recursive",
       // "matchStringsStrategy": "combination",
       "datasourceTemplate": "custom.pages",
       "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "kong/kong-ee/hardening_manifest.yaml"
+      ],
+      "matchStrings": [
+        // tags:
+        // - 3.7.1.1
+        // - latest
+        //
+        // - url: https://packages.konghq.com/public/gateway-37/rpm/el/9/x86_64/kong-enterprise-edition-fips-3.7.1.1.el9.x86_64.rpm
+        //   filename: kong-enterprise-edition.noarch.rpm
+        //   validation:
+        //     type: sha256
+        //     value: f4115a6f6e106d456ccfff9f3dfe941218ff71cec21c5581d5154440b10827cd
+        //
+        //   org.opencontainers.image.version: 3.7.1.1
+        "url: https://packages.konghq.com/public/gateway-\\d\\d/rpm/el/(?<el>\\d+)/x86_64/kong-enterprise-edition-fips-(?<currentValue>[0-9\\.]{7}).el\\d+.x86_64.rpm\n  filename: (?<filename>.+)\n  validation:\n    type: sha256\n    value: (?<currentDigest>[a-f0-9]{64})",
+      ],
+      "depNameTemplate": "kong-ee/el/{{el}}",
+      // "depNameTemplate": "el/{{{el}}}/{{{depName}}}",
+      "packageNameTemplate": "kong/kong-ee",
+      // "matchStringsStrategy": "recursive",
+      // "matchStringsStrategy": "combination",
+      "datasourceTemplate": "custom.pages",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$",
+      "autoReplaceStringTemplate": "url: https://packages.konghq.com/public/gateway-{{{newMajor}}}{{{newMinor}}}/rpm/el/{{{el}}}/x86_64/kong-enterprise-edition-fips-{{{newValue}}}.el{{{el}}}.x86_64.rpm\n  filename: {{{filename}}}\n  validation:\n    type: sha256\n    value: {{{newDigest}}}",
     },
     // {
     //   "customType": "regex",
