@@ -1,7 +1,7 @@
 {
   "releases": $sort(
     $.{
-      "changelogUrl": "https://docs.konghq.com/gateway/changelog" & "#" & $replace(version, /-1|\./, ""),
+      "changelogUrl": "https://docs.konghq.com/gateway/changelog" & "#" & $replace($replace(version, /-1/, ""), /\./, "-"),
       "digest": checksum_sha256,
       "isDeprecated": $not("latest" in tags.version),
       "isStable": true,
