@@ -5,6 +5,7 @@
       "digest": checksum_sha256,
       "isDeprecated": $not("latest" in tags.version),
       "isStable": true,
+      "isLTS": $split(version, ".", 2) in ["3.4", "3.10", "3.14", "3.18", "3.22"],
       "newDigest": checksum_sha256,
       "releaseTimestamp": uploaded_at,
       "sourceUrl": cdn_url,
